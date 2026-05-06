@@ -4,288 +4,343 @@
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 
   <div class="hof-container">
-    <!-- 数据统计：Swell 轻量留白风格 -->
-    <div class="swell-stats-row">
-      <div class="swell-stat-item">
+    
+    <!-- 极简数据统计列 -->
+    <div class="flat-stats-row">
+      <div class="flat-stat-item">
         <div class="stat-num">8</div>
         <div class="stat-text">届组委会</div>
       </div>
-      <div class="swell-stat-item">
-        <div class="stat-num">22</div>
-        <div class="stat-text">核心成员</div>
+      <div class="flat-stat-item">
+        <div class="stat-num">40</div>
+        <div class="stat-text">名人堂成员</div>
       </div>
-      <div class="swell-stat-item">
+      <div class="flat-stat-item">
         <div class="stat-num">2018</div>
         <div class="stat-text">创社年份</div>
       </div>
-      <div class="swell-stat-item">
-        <div class="stat-num">12</div>
-        <div class="stat-text">历任社长</div>
+      <div class="flat-stat-item">
+        <div class="stat-num">10+</div>
+        <div class="stat-text">校际盟友</div>
       </div>
     </div>
 
-    <!-- 筛选标签 -->
-    <div class="swell-filter-wrap">
-      <div class="swell-filter-track" id="termFilters">
-        <button class="swell-pill active" onclick="filterTerm(0)">全部成员</button>
+    <!-- 极简底线 Tab 导航 -->
+    <div class="flat-filter-wrap">
+      <div class="flat-filter-track" id="termFilters">
+        <button class="flat-tab active" onclick="filterTerm(0)">全部成员</button>
         <!-- JS 自动生成 -->
       </div>
     </div>
 
-    <!-- 悬浮毛玻璃画廊网格 -->
-    <div class="swell-gallery-grid" id="photoGrid"></div>
+    <!-- 扁平化杂志排版网格 -->
+    <div class="flat-gallery-grid" id="photoGrid"></div>
   </div>
 </div>
 
-<!-- ================= 弹窗部分独立包裹 (用于避开WordPress层级遮挡) ================= -->
+<!-- ================= 弹窗部分独立包裹 (DOM穿梭：避开WordPress层级遮挡) ================= -->
 <div id="shs-hof-modals" class="shs-hof-namespace">
-  <div class="swell-overlay" id="detailOverlay" onclick="closeDetail()"></div>
-  <div class="swell-drawer" id="detailPanel">
-    <button class="swell-close-btn" onclick="closeDetail()">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <div class="flat-overlay" id="detailOverlay" onclick="closeDetail()"></div>
+  <div class="flat-drawer" id="detailPanel">
+    <button class="flat-close-btn" onclick="closeDetail()">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
         <line x1="18" y1="6" x2="6" y2="18"></line>
         <line x1="6" y1="6" x2="18" y2="18"></line>
       </svg>
     </button>
-    <div class="swell-drawer-content" id="detailPanelContent">
+    <div class="flat-drawer-content" id="detailPanelContent">
       <!-- 内容由JS注入 -->
     </div>
   </div>
 </div>
 
 <style>
-  /* ================= 核心命名空间与变量 ================= */
+  /* ================= 高端扁平化核心变量 ================= */
   .shs-hof-namespace {
-    --swell-brand: #d44d5c; /* 树莓红 */
-    --swell-brand-light: rgba(212, 77, 92, 0.08);
-    --swell-accent: #c4a35a; /* 荣誉金 */
+    --swell-brand: #bd3140; /* 更加深沉正式的树莓红 */
+    --swell-accent: #b08d45; /* 雅致暗金 */
     --swell-bg: #ffffff;
-    --swell-bg-gray: #f7f9fa;
-    --swell-text-main: #333333;
-    --swell-text-sub: #666666;
+    --swell-bg-gray: #fafafa;
+    --swell-text-main: #1a1a1a;
+    --swell-text-sub: #555555;
     --swell-text-light: #999999;
-    --swell-border: #eef0f2;
-    --swell-radius: 12px;
-    --swell-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    --swell-transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    --swell-border: #e2e2e2;
+    --swell-border-light: #f0f0f0;
     
-    font-family: inherit;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     color: var(--swell-text-main);
     max-width: 100%;
     margin: 0 auto;
-    line-height: 1.7;
+    line-height: 1.8;
   }
   .shs-hof-namespace * { box-sizing: border-box; }
 
-  /* ================= 统计区域 ================= */
-  .shs-hof-namespace .swell-stats-row {
-    display: flex; gap: 24px; margin-bottom: 40px; justify-content: center; flex-wrap: wrap;
+  /* ================= 极简数据统计 ================= */
+  .shs-hof-namespace .flat-stats-row {
+    display: flex; gap: 40px; margin-bottom: 48px; justify-content: flex-start;
+    padding: 24px 0; border-top: 1px solid var(--swell-border-light); border-bottom: 1px solid var(--swell-border-light);
+    flex-wrap: wrap;
   }
-  .shs-hof-namespace .swell-stat-item {
-    text-align: center; min-width: 100px; padding: 16px; position: relative;
-  }
-  .shs-hof-namespace .swell-stat-item:not(:last-child)::after {
-    content: ''; position: absolute; right: -12px; top: 20%; height: 60%;
-    width: 1px; background: var(--swell-border);
+  .shs-hof-namespace .flat-stat-item {
+    display: flex; flex-direction: column; align-items: flex-start;
   }
   .shs-hof-namespace .stat-num {
-    font-size: 32px; font-weight: 700; color: var(--swell-brand);
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 1.1; margin-bottom: 4px;
+    font-size: 36px; font-weight: 400; color: var(--swell-text-main);
+    font-family: "Didot", "Georgia", serif; /* 引入衬线体增强高级感 */
+    line-height: 1; margin-bottom: 8px;
   }
-  .shs-hof-namespace .stat-text { font-size: 12px; color: var(--swell-text-light); font-weight: normal; }
+  .shs-hof-namespace .stat-text { 
+    font-size: 13px; color: var(--swell-text-light); letter-spacing: 1px; text-transform: uppercase;
+  }
 
-  /* ================= 筛选导航 ================= */
-  .shs-hof-namespace .swell-filter-wrap {
+  /* ================= 极简底线 Tab 导航 ================= */
+  .shs-hof-namespace .flat-filter-wrap {
     margin-bottom: 32px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
-    padding-bottom: 8px; border-bottom: 1px solid var(--swell-border);
-  }
-  .shs-hof-namespace .swell-filter-wrap::-webkit-scrollbar { display: none; }
-  .shs-hof-namespace .swell-filter-track { display: flex; gap: 12px; padding: 0 4px; }
-  .shs-hof-namespace .swell-pill {
-    flex-shrink: 0; padding: 6px 18px; background: transparent; border: 1px solid var(--swell-border);
-    border-radius: 30px; font-size: 14px; color: var(--swell-text-sub);
-    cursor: pointer; transition: var(--swell-transition); display: flex; align-items: center; gap: 6px;
-  }
-  .shs-hof-namespace .swell-pill:hover { background: var(--swell-bg-gray); color: var(--swell-text-main); }
-  .shs-hof-namespace .swell-pill.active {
-    background: var(--swell-brand); color: #fff; border-color: var(--swell-brand);
-    box-shadow: 0 4px 10px var(--swell-brand-light);
-  }
-  .shs-hof-namespace .term-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.8; }
-  .shs-hof-namespace .swell-pill.active .term-dot { background: #fff; opacity: 1; }
-
-  /* ================= 照片画廊：毛玻璃风格 ================= */
-  .shs-hof-namespace .swell-gallery-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px;
-  }
-  
-  .shs-hof-namespace .gallery-card {
-    position: relative; aspect-ratio: 3 / 4; border-radius: var(--swell-radius);
-    overflow: hidden; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-    transition: var(--swell-transition); background: #eaeaea;
-  }
-  .shs-hof-namespace .gallery-card.hide { display: none; }
-  .shs-hof-namespace .gallery-card:hover { transform: translateY(-6px); box-shadow: var(--swell-shadow); }
-
-  .shs-hof-namespace .card-img {
-    width: 100%; height: 100%; object-fit: cover;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .shs-hof-namespace .gallery-card:hover .card-img { transform: scale(1.06); }
-
-  .shs-hof-namespace .card-badge {
-    position: absolute; top: 12px; left: 12px;
-    padding: 4px 12px; border-radius: 20px;
-    font-size: 11px; font-weight: 700; color: #fff;
-    background: rgba(0,0,0,0.4);
-    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,0.2); z-index: 2;
-  }
-
-  .shs-hof-namespace .card-glass-panel {
-    position: absolute; bottom: 12px; left: 12px; right: 12px;
-    background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 8px;
-    padding: 12px 16px; z-index: 2; transition: var(--swell-transition);
-    display: flex; flex-direction: column; justify-content: center;
-  }
-  .shs-hof-namespace .gallery-card:hover .card-glass-panel {
-    background: rgba(255, 255, 255, 0.98); transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  }
-  
-  .shs-hof-namespace .card-name { font-size: 18px; font-weight: 800; margin: 0 0 2px; color: var(--swell-text-main); line-height: 1.2; }
-  .shs-hof-namespace .card-role { font-size: 12px; color: var(--swell-text-sub); font-weight: 500; }
-
-  /* ================= 详情侧边栏 (极高 Z-index 穿透) ================= */
-  .shs-hof-namespace .swell-overlay {
-    position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4);
-    z-index: 9999998; /* 【重要修复】极高的层级 */
-    opacity: 0; visibility: hidden; transition: opacity 0.3s ease;
-  }
-  .shs-hof-namespace .swell-overlay.active { opacity: 1; visibility: visible; }
-  
-  .shs-hof-namespace .swell-drawer {
-    position: fixed; top: 0; right: 0;
-    width: 500px; max-width: 100vw; height: 100vh;
-    background: var(--swell-bg); box-shadow: -4px 0 24px rgba(0,0,0,0.1);
-    z-index: 9999999; /* 【重要修复】极高的层级 */
-    transform: translateX(100%);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    overflow-y: auto; display: flex; flex-direction: column;
-  }
-  .shs-hof-namespace .swell-drawer.active { transform: translateX(0); }
-  
-  .shs-hof-namespace .swell-close-btn {
-    position: absolute; top: 16px; right: 16px;
-    width: 36px; height: 36px; border-radius: 50%;
-    background: rgba(255,255,255,0.8); border: 1px solid var(--swell-border);
-    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--swell-text-sub); z-index: 10; transition: var(--swell-transition);
-  }
-  .shs-hof-namespace .swell-close-btn:hover { color: var(--swell-brand); border-color: var(--swell-brand); }
-
-  .shs-hof-namespace .dp-cover { width: 100%; height: 320px; object-fit: cover; border-bottom: 1px solid var(--swell-border); }
-  .shs-hof-namespace .dp-content { padding: 32px; }
-  
-  .shs-hof-namespace .dp-name { font-size: 28px; font-weight: bold; margin: 0 0 8px; color: var(--swell-text-main); line-height: 1.3; }
-  .shs-hof-namespace .dp-role { font-size: 15px; color: var(--swell-brand); font-weight: 500; margin: 0 0 20px; }
-  
-  .shs-hof-namespace .dp-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
-  .shs-hof-namespace .dp-tag {
-    font-size: 12px; padding: 4px 10px; background: var(--swell-bg-gray); 
-    border: 1px solid var(--swell-border); border-radius: 4px; color: var(--swell-text-sub);
-  }
-  
-  .shs-hof-namespace .dp-section-title {
-    font-size: 18px; font-weight: bold; color: var(--swell-text-main);
-    margin: 32px 0 16px; padding: 6px 0 6px 12px;
-    border-left: 4px solid var(--swell-brand);
     border-bottom: 1px solid var(--swell-border);
   }
+  .shs-hof-namespace .flat-filter-wrap::-webkit-scrollbar { display: none; }
+  .shs-hof-namespace .flat-filter-track { display: flex; gap: 32px; }
   
-  .shs-hof-namespace .dp-contribution { font-size: 15px; line-height: 1.8; color: var(--swell-text-sub); margin-bottom: 24px; }
+  .shs-hof-namespace .flat-tab {
+    flex-shrink: 0; padding: 0 0 12px 0; background: transparent; border: none;
+    border-bottom: 2px solid transparent; font-size: 15px; color: var(--swell-text-sub);
+    cursor: pointer; transition: color 0.3s;
+  }
+  .shs-hof-namespace .flat-tab:hover { color: var(--swell-text-main); }
+  .shs-hof-namespace .flat-tab.active {
+    color: var(--swell-text-main); border-bottom-color: var(--swell-text-main); font-weight: 600;
+  }
   
+  /* ================= 扁平化杂志排版网格 ================= */
+  .shs-hof-namespace .flat-gallery-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 32px 24px;
+  }
+  
+  .shs-hof-namespace .flat-card {
+    cursor: pointer; background: transparent;
+  }
+  .shs-hof-namespace .flat-card.hide { display: none; }
+  
+  .shs-hof-namespace .card-img-box {
+    position: relative; aspect-ratio: 3 / 4; background: var(--swell-bg-gray);
+    margin-bottom: 16px; overflow: hidden;
+  }
+  
+  .shs-hof-namespace .card-img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: opacity 0.4s ease, transform 0.6s ease;
+  }
+  /* 克制的悬停：稍微变暗，轻微放大 */
+  .shs-hof-namespace .flat-card:hover .card-img { 
+    opacity: 0.85; transform: scale(1.02); 
+  }
+
+  /* 直角纯色标签，彰显学术正式感 */
+  .shs-hof-namespace .card-badge {
+    position: absolute; top: 0; left: 0;
+    padding: 4px 10px; font-size: 11px; font-weight: 500; color: #fff;
+    letter-spacing: 1px; z-index: 2;
+  }
+
+  .shs-hof-namespace .card-name { 
+    font-size: 17px; font-weight: 600; color: var(--swell-text-main); 
+    line-height: 1.3; margin-bottom: 4px;
+  }
+  .shs-hof-namespace .card-role { 
+    font-size: 13px; color: var(--swell-text-light); font-weight: 400;
+  }
+
+  /* ================= 详情侧边栏 (扁平无阴影) ================= */
+  .shs-hof-namespace .flat-overlay {
+    position: fixed; inset: 0; background: rgba(255, 255, 255, 0.9); /* 白色半透，高级感 */
+    z-index: 9999998; opacity: 0; visibility: hidden; transition: opacity 0.4s ease;
+  }
+  .shs-hof-namespace .flat-overlay.active { opacity: 1; visibility: visible; }
+  
+  .shs-hof-namespace .flat-drawer {
+    position: fixed; top: 0; right: 0;
+    width: 520px; max-width: 100vw; height: 100vh;
+    background: var(--swell-bg); 
+    border-left: 1px solid var(--swell-border); /* 纯细线分割，无阴影 */
+    z-index: 9999999; transform: translateX(100%);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow-y: auto; display: flex; flex-direction: column;
+  }
+  .shs-hof-namespace .flat-drawer.active { transform: translateX(0); }
+  
+  /* 极简关闭按钮 */
+  .shs-hof-namespace .flat-close-btn {
+    position: absolute; top: 20px; right: 24px;
+    width: 32px; height: 32px; background: transparent; border: none;
+    cursor: pointer; color: var(--swell-text-light); z-index: 10; 
+    transition: color 0.3s, transform 0.3s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .shs-hof-namespace .flat-close-btn:hover { color: var(--swell-text-main); transform: rotate(90deg); }
+
+  .shs-hof-namespace .dp-cover { 
+    width: 100%; height: 360px; object-fit: cover; 
+    border-bottom: 1px solid var(--swell-border-light); 
+  }
+  
+  .shs-hof-namespace .dp-content { padding: 40px 48px; }
+  
+  .shs-hof-namespace .dp-name { 
+    font-size: 32px; font-weight: 500; margin: 0 0 8px; 
+    color: var(--swell-text-main); line-height: 1.2; letter-spacing: 1px;
+  }
+  .shs-hof-namespace .dp-role { 
+    font-size: 14px; color: var(--swell-text-sub); font-weight: 400; margin: 0 0 24px; 
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  
+  /* 扁平细线标签 */
+  .shs-hof-namespace .dp-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }
+  .shs-hof-namespace .dp-tag {
+    font-size: 12px; padding: 4px 12px; background: transparent; 
+    border: 1px solid var(--swell-border); color: var(--swell-text-sub);
+  }
+  
+  /* Swell 原生标题风格：左侧极细主色线 + 底部浅灰线 */
+  .shs-hof-namespace .dp-section-title {
+    font-size: 18px; font-weight: 600; color: var(--swell-text-main);
+    margin: 40px 0 20px; padding: 0 0 12px 0;
+    border-bottom: 1px solid var(--swell-border-light);
+    position: relative;
+  }
+  .shs-hof-namespace .dp-section-title::after {
+    content: ''; position: absolute; bottom: -1px; left: 0;
+    width: 40px; height: 2px; background: var(--swell-text-main);
+  }
+  
+  .shs-hof-namespace .dp-contribution { 
+    font-size: 15px; line-height: 1.85; color: var(--swell-text-sub); margin-bottom: 32px; 
+    text-align: justify;
+  }
+  
+  /* 杂志风引用块 */
   .shs-hof-namespace .dp-quote {
-    padding: 16px 20px; background: var(--swell-bg-gray); 
-    border-left: 4px solid var(--swell-accent); border-radius: 0 4px 4px 0;
-    font-size: 15px; color: var(--swell-text-sub); font-style: italic; margin-bottom: 24px;
+    padding: 24px; background: var(--swell-bg-gray); 
+    border-left: 2px solid var(--swell-text-main); 
+    font-size: 15px; color: var(--swell-text-main); 
+    font-family: "Didot", "Georgia", serif; font-style: italic; margin-bottom: 32px;
   }
   
   .shs-hof-namespace #radar-chart {
-    width: 100%; height: 300px; background: #fff;
-    border: 1px solid var(--swell-border); border-radius: 8px;
+    width: 100%; height: 320px; background: transparent;
+    margin-bottom: 32px;
   }
 
+  /* 扁平文字链接 */
   .shs-hof-namespace .dp-archive {
-    display: inline-flex; align-items: center; gap: 6px; margin-top: 12px;
-    font-size: 14px; color: var(--swell-accent); text-decoration: none; transition: color 0.2s;
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 8px;
+    font-size: 14px; color: var(--swell-brand); text-decoration: none; 
+    border-bottom: 1px solid transparent; transition: border-color 0.3s;
   }
-  .shs-hof-namespace .dp-archive:hover { color: var(--swell-brand); text-decoration: underline; }
+  .shs-hof-namespace .dp-archive:hover { border-bottom-color: var(--swell-brand); }
 
   @media (max-width: 768px) {
-    .shs-hof-namespace .swell-stats-row { gap: 16px; }
-    .shs-hof-namespace .swell-stat-item { min-width: 80px; padding: 10px; }
-    .shs-hof-namespace .swell-stat-item:not(:last-child)::after { display: none; } 
-    .shs-hof-namespace .stat-num { font-size: 24px; }
-    .shs-hof-namespace .swell-gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .shs-hof-namespace .card-name { font-size: 15px; }
-    .shs-hof-namespace .card-glass-panel { padding: 8px 12px; bottom: 8px; left: 8px; right: 8px; }
+    .shs-hof-namespace .flat-stats-row { gap: 24px; padding: 16px 0; }
+    .shs-hof-namespace .stat-num { font-size: 28px; }
+    .shs-hof-namespace .flat-gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 24px 16px; }
     .shs-hof-namespace .dp-cover { height: 260px; }
-    .shs-hof-namespace .dp-content { padding: 24px; }
-    .shs-hof-namespace .dp-name { font-size: 24px; }
+    .shs-hof-namespace .dp-content { padding: 32px 24px; }
+    .shs-hof-namespace .dp-name { font-size: 26px; }
   }
 
-  @keyframes swellFadeIn {
-    from { opacity: 0; transform: scale(0.95) translateY(10px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
+  @keyframes flatFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 </style>
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
 
-    // 【核心防御机制】: 将弹窗结构移动到 HTML 根部的 <body> 下，彻底摆脱 WordPress 主题 Header 的遮挡
+    // 【DOM Teleport】: 移至 body 尾部，避开层级遮挡
     const modalsContainer = document.getElementById('shs-hof-modals');
     if (modalsContainer && modalsContainer.parentNode !== document.body) {
       document.body.appendChild(modalsContainer);
     }
 
+    // 采用更沉稳高级的色系
     const termColors = {
-      1: '#d44d5c', 2: '#e57a44', 3: '#c4a35a', 4: '#5a9c7c',
-      5: '#5c80bc', 6: '#8a6baf', 7: '#bc6c9b', 8: '#4aaba0'
+      1: '#942b38', 2: '#ab5e30', 3: '#9c8247', 4: '#42785d',
+      5: '#445f8c', 6: '#664d85', 7: '#8a4c70', 8: '#388279'
     };
     const termNames =['一','二','三','四','五','六','七','八'];
 
+    // 高端几何首字母 API
     const getPhotoUrl = (name, term, customUrl) => {
       if (customUrl) return customUrl;
       const colorHex = termColors[term].replace('#', '');
-      return `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}&backgroundColor=${colorHex}&textColor=ffffff&fontWeight=bold`;
+      return `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}&backgroundColor=${colorHex}&textColor=ffffff&fontWeight=normal&fontSize=40`;
     };
 
     const people =[
-      { id: 'mayuzhang',  name: '马雨璋', term: 1, role: '社长 · 联合创始人', tags:['创社核心','传媒中心','《苏迷》'], contribution: '确立树莓社以影视创作为核心的社团定位，创立传媒中心。领导制作纪录片《苏迷》，带领社员参加48小时电影马拉松比赛。', quote: '当你的声音流淌，世界屏息静听；当你的镜头开启，天地重赋色彩。', scores:[5, 85, 40, 55, 30, 45], archive: '《数媒社创社策划案》', photo: '' },
-      { id: 'zhangshihan',name: '张诗菡', term: 1, role: '副社长 · 联合创始人', tags:['Logo设计','除夕拜年','视觉形象'], contribution: '设计树莓社社团Logo和传媒中心台标，创造了树莓社的视觉形象。担任纪录片《苏迷》总撰稿。', quote: '第一次组织全然陌生的社员参加大型活动，过程真的很美妙。', scores:[20, 70, 30, 45, 50, 40], archive: '', photo: '' },
-      { id: 'shensunfeng',name: '沈孙丰', term: 1, role: '部长 · 联合创始人', tags:['命名树莓','树莓派','社团联盟'], contribution: '提出用"树莓"代替"数字媒体"，主导社团管理体制民主改革。联合发起树莓派援助武汉募捐活动，募集数十万元善款。', quote: '我们用行动回应了那些争议和误解，找到独属于我们的活动。', scores:[68, 45, 90, 50, 60, 75], archive: '《树莓社章程》', photo: '' },
-      { id: 'shiyunhan',  name: '石允涵', term: 2, role: '第二届社长', tags:['双社长制','照片直播'], contribution: '引入照片直播工作模式，开创摄影志愿服务品牌，担任传媒中心负责人。', quote: '', scores:[45, 25, 60, 70, 75, 50], archive: '', photo: 'https://szzxshumei.com/wp-content/uploads/2020/12/00000fce-cf5a-765c-4112-63519500030a.jpg' },
-      { id: 'liuenqi',    name: '刘恩岐', term: 2, role: '第二届社长', tags:['经费保障','后期部'], contribution: '设计第二代工作证，为社团运营提供重要经费保障，担任第二届组委会主席。', quote: '', scores:[55, 35, 50, 45, 55, 50], archive: '', photo: '' },
-      { id: 'zhuyi',      name: '朱奕',   term: 3, role: '第三届社长', tags:['走出困境','识茶记'], contribution: '带领社团走出发展困境。举办"破界"创意摄影大赛，完成微电影《识茶记》。', quote: '', scores:[55, 55, 65, 60, 55, 60], archive: '', photo: 'https://szzxshumei.com/wp-content/uploads/2025/01/00000fcf-3644-74ea-4980-218fa85e3b2d.jpg' },
-      { id: 'yezhuo',     name: '叶卓',   term: 3, role: '代理社长', tags:['B站开创','社团联盟'], contribution: '开创树莓社B站账号，当选社团联盟理事会主席，将"校级赋能"升级为常态发展引擎。', quote: '', scores:[60, 50, 75, 55, 45, 55], archive: '', photo: '' },
-      { id: 'wangyiyang', name: '汪翊扬', term: 4, role: '第四届社长', tags:['创纪录招新','网课坚持'], contribution: '克服疫情坚持线上活动，纳新70人达历史之最。推动成立"树莓派"校际联盟。', quote: '', scores:[72, 60, 55, 55, 50, 65], archive: '', photo: '' },
-      { id: 'wangzhexi',  name: '王哲熙', term: 4, role: '编导部部长', tags:['温度口号','内容创作'], contribution: '提出"用有温度、有力量的作品，影响一群人，温暖一座城"，担任编导部部长。', quote: '用有温度、有力量的作品，影响一群人，温暖一座城。', scores:[35, 75, 30, 40, 80, 35], archive: '', photo: '' },
-      { id: 'liqian',     name: '李谦',   term: 5, role: '第五届社长', tags:['线下回归','拍摄担当'], contribution: '以"蒙故业，因遗策"为治社纲领，采取过渡性战略，将重心转移回线下凝聚。', quote: '', scores:[50, 50, 50, 45, 85, 55], archive: '', photo: '' },
-      { id: 'zhouyijia',  name: '周熠嘉', term: 6, role: '第六届社长', tags:['数字化转型','十佳社团'], contribution: '推动树莓派联盟签约成立，建立社团数据库与文献库，开创《树莓日签》。', quote: '', scores:[60, 40, 75, 55, 70, 70], archive: '', photo: '' },
-      { id: 'yangziyan',  name: '杨梓言', term: 7, role: '第七届社长', tags:['全媒体矩阵','组织进化'], contribution: '推动社团治理变革，建成全媒体传播矩阵，累计传播超20万人次。', quote: '', scores:[80, 65, 35, 85, 90, 85], archive: '', photo: '' },
-      { id: 'chenyuxin',  name: '陈雨馨', term: 8, role: '第八届社长', tags:['寻找主演','优秀社员'], contribution: '第一位女社长，微电影《寻找》主演，掌舵社团延续影像薪火。', quote: '', scores:[30, 80, 60, 50, 75, 55], archive: '', photo: '' }
+      // 第一届
+      { id: 'mayuzhang',  name: '马雨璋', term: 1, role: '首任社长 · 联合创始人', tags:['创社核心','传媒中心','《苏迷》'], contribution: '确立树莓社以影视创作为核心的社团定位，创立传媒中心。领导制作纪录片《苏迷》，带领社员参加48小时电影马拉松比赛。', quote: '当你的声音流淌，世界屏息静听；当你的镜头开启，天地重赋色彩。', scores:[5, 85, 40, 55, 30, 45], archive: '《数媒社创社策划案》', photo: '' },
+      { id: 'zhangshihan',name: '张诗菡', term: 1, role: '首任副社长 · 联合创始人', tags:['Logo设计','视觉形象','传媒策划'], contribution: '设计树莓社第一版Logo和传媒中心台标，奠定社团视觉形象。担任原创纪录片《苏迷》总撰稿。', quote: '第一次组织全然陌生的社员参加大型活动，过程真的很美妙。', scores:[20, 70, 30, 45, 50, 40], archive: '', photo: '' },
+      { id: 'shensunfeng',name: '沈孙丰', term: 1, role: '部长 · 联合创始人', tags:['命名树莓','体制改革','树莓派'], contribution: '提出用"树莓"代替"数字媒体"，主导社团管理体制民主改革，起草《社团章程》。联合发起树莓派援助武汉抗疫募捐活动。', quote: '我们用行动回应了那些争议和误解，找到独属于我们的活动。', scores:[68, 45, 90, 50, 60, 75], archive: '《苏州中学树莓社章程》', photo: '' },
+      
+      // 第二届
+      { id: 'shiyunhan',  name: '石允涵', term: 2, role: '第二届社长', tags:['双社长制','照片直播'], contribution: '引入照片直播工作模式，开创摄影志愿服务品牌，大幅提高宣传时效性。荣获苏州市优秀社长称号。', quote: '面对挑战，我能行；遇到困难，我不怕；突发状况，我担当。', scores:[45, 25, 60, 70, 75, 50], archive: '《树莓社摄影志愿服务团队开展情况报告》', photo: '' },
+      { id: 'liuenqi',    name: '刘恩岐', term: 2, role: '第二届社长', tags:['经费保障','后期部'], contribution: '树莓社历史双社长制代表。设计第二代工作证，为社团运营提供重要经费保障，起草《2019年社长工作报告》。', quote: '', scores:[55, 35, 50, 45, 55, 50], archive: '', photo: '' },
+      { id: 'xingxiaohan',name: '邢笑菡', term: 2, role: '第二届代理社长 / 社联副主席', tags:['代理社长','部门优化'], contribution: '担任代理社长期间主持社团换届，提出部门结构优化方案。担任苏州中学社团联盟理事会副主席，促进跨社团交流。', quote: '', scores:[45, 20, 55, 35, 45, 40], archive: '', photo: '' },
+      { id: 'tanjiayi',   name: '谭嘉怡', term: 2, role: '编导部部长', tags:['《英雄少年》','抗疫募捐'], contribution: '编剧并导演志愿者专题纪录片《英雄少年》。在2020年抗击新冠疫情期间，作为主力在校外联合多校社团发起大规模募捐。', quote: '', scores:[35, 55, 60, 50, 75, 45], archive: '', photo: '' },
+
+      // 第三届
+      { id: 'zhuyi',      name: '朱奕',   term: 3, role: '第三届社长', tags:['走出困境','《识茶记》'], contribution: '在面临内外挑战时带领社团走出困境，明确社团发展方向。推动《识茶记》等核心作品创作，举办“破界”创意摄影大赛。', quote: '', scores:[55, 55, 65, 60, 55, 60], archive: '', photo: '' },
+      { id: 'yezhuo',     name: '叶卓',   term: 3, role: '代理社长 / 社联主席', tags:['B站开创','社联主席'], contribution: '开创树莓社B站官方账号，探索社团传播新矩阵。当选社团联盟理事会主席，将“校级赋能”升级为常态发展引擎。', quote: '', scores:[60, 50, 75, 55, 45, 55], archive: '', photo: '' },
+      { id: 'pengjiayi',  name: '彭嘉仪', term: 3, role: '宣传部部长', tags: ['宣传改革','效益最大化'], contribution: '提出“将宣传效益最大化”的理念，打破传统海报张贴思路，对树莓社的宣传体系建设产生了深远影响。', quote: '', scores:[30, 65, 40, 45, 35, 30], archive: '', photo: '' },
+      { id: 'lilingjian', name: '李令剑', term: 3, role: '传媒中心负责人', tags:['春晚总导','《苏中曰》'], contribution: '发起并担任《2021年苏州中学春节联欢晚会》节目总导演，创办《苏中曰》校园广播节目，积极推进传媒中心机制改革。', quote: '', scores:[55, 50, 50, 60, 50, 55], archive: '', photo: '' },
+      { id: 'chentianyi', name: '陈天一', term: 3, role: '表播部部长', tags:['《识茶记》编剧','《苏中曰》主持'], contribution: '微电影《识茶记》编剧，撰写幕后故事专栏。传媒中心节目总策划与主播。曾荣获全国学生“学宪法”活动总决赛高中组一等奖。', quote: '', scores:[50, 75, 60, 45, 75, 65], archive: '', photo: '' },
+      { id: 'liduocan',   name: '李多璨', term: 3, role: '代理副社长', tags:['拉取赞助','破界发起人'], contribution: '联合发起“破界”创意摄影作品征集活动，开辟校际合作先例。在多项活动中成功拉取外部赞助累计超5万元，后任社联理事。', quote: '', scores:[55, 45, 90, 40, 50, 70], archive: '', photo: '' },
+
+      // 第四届
+      { id: 'wangyiyang', name: '汪翊扬', term: 4, role: '第四届社长', tags:['创纪录招新','树莓派联盟'], contribution: '在“网课学期”克服疫情障碍坚持线上活动，带领第五届招新创下79人历史最高纪录。推动树莓社与多校社团结成树莓派联盟。', quote: '我们呈现生活，我们记录感动，用一帧帧画面还原真实。', scores:[72, 60, 55, 55, 50, 65], archive: '', photo: '' },
+      { id: 'luweiyi',    name: '陆未一', term: 4, role: '第四届副社长', tags:['公众号创办','看板娘2.0'], contribution: '树莓社官方微信公众号创始人，确立“文案+排版”的运营体系。设计了树莓社2021版看板娘形象，丰富社团IP底蕴。', quote: '', scores:[40, 60, 45, 70, 55, 45], archive: '', photo: '' },
+      { id: 'guhengting', name: '顾衡庭', term: 4, role: '第四届副社长', tags: ['视频直播','《数据之下》'], contribution: '完善B站账号运作机制，开创视频实时转播业务。担任微电影《数据之下》制片与后期，重启《苏迷》纪录片第一集拍摄。', quote: '', scores:[50, 55, 50, 65, 40, 50], archive: '', photo: '' },
+      { id: 'wangzhexi',  name: '王哲熙', term: 4, role: '编导部部长', tags:['温度口号','内容创作'], contribution: '对树莓社初心使命进行再总结，提出“用有温度、有力量的作品，影响一群人，温暖一座城”的社团经典口号。', quote: '用有温度、有力量的作品，影响一群人，温暖一座城。', scores:[35, 75, 30, 40, 80, 35], archive: '', photo: '' },
+      { id: 'guanxinye',  name: '管欣烨', term: 4, role: '第四届副社长', tags:['视觉设计','海报宣发'], contribution: '树莓社第四届组织委员会副主席。在社团招新、换届等重大活动中承担视觉设计与宣发工作，联合设计2022年线上招新海报。', quote: '', scores:[55, 65, 45, 50, 50, 60], archive: '', photo: '' },
+      { id: 'luziyi',     name: '陆子易', term: 4, role: '第四届副社长', tags:['活动跟拍','第四代核心'], contribution: '在特殊学期克服障碍坚持开展活动。多次主导并参与校运会、原创歌曲大赛、篮球赛、排球赛等大型校园赛事的现场拍摄。', quote: '', scores:[60, 55, 50, 55, 60, 70], archive: '', photo: '' },
+      { id: 'yusichen',   name: '虞思辰', term: 4, role: '宣策部部长', tags:['海报设计','《数据之下》'], contribution: '担任第四届策划与宣传部部长，曾连夜完成招新立式海报设计。参与微电影《数据之下》主创与后期故事撰写。', quote: '', scores:[50, 70, 45, 55, 60, 55], archive: '', photo: '' },
+      { id: 'zhouxinyan', name: '周昕岩', term: 4, role: '摄影师 / 核心社员', tags: ['爬楼摄影','现场快剪'], contribution: '担任重大赛事的高质量拍摄与快剪工作。曾受社团专访分享“爬楼摄影”故事，并使用重型装备进行艺术创作。', quote: '', scores:[40, 85, 45, 75, 55, 45], archive: '《用高空大片定格城市之美》', photo: '' },
+
+      // 第五届
+      { id: 'liqian',     name: '李谦',   term: 5, role: '第五届社长', tags:['线下回归','拍摄担当'], contribution: '以“蒙故业，因遗策”为治社纲领，采取过渡性战略，将受疫情影响的社团发展重心转移回线下，在各类大型活动中承担拍摄重任。', quote: '', scores:[50, 50, 50, 45, 85, 55], archive: '', photo: '' },
+
+      // 第六届
+      { id: 'zhouyijia',  name: '周熠嘉', term: 6, role: '第六届社长', tags:['数字化转型','树莓派联盟'], contribution: '树莓派社团联盟主要创始人。推动社团治理数字化转型，提出“回归社团本质、重视兴趣导向”。创立《树莓日签》，推进AIGC研究。', quote: '现阶段的活动理念与社员实际期望的冲突，需要通过回归社团本质来解决。', scores:[60, 40, 75, 55, 70, 70], archive: '', photo: '' },
+      { id: 'zhangyujiang',name:'张宇江', term: 6, role: '代行社长职权', tags:['后期部','过渡保障'], contribution: '担任后期部负责人。在第六届社团管理中曾代行社长职权，为社团过渡期的稳定运作提供技术与管理保障。', quote: '', scores:[40, 35, 45, 40, 45, 50], archive: '', photo: '' },
+      { id: 'wangyanran', name: '王嫣然', term: 6, role: '第六届副社长', tags:['QQ阵地','创作者权益'], contribution: '开创树莓社QQ宣发阵地，主导“共享相册”活动。在社团联盟成立仪式上发表《保障创作者权益倡议》。执笔第六届年度工作报告。', quote: '当我们的感受跃然纸上，记忆便成为了作品。', scores:[55, 45, 60, 50, 75, 65], archive: '', photo: '' },
+      { id: 'huangsibo',  name: '黄思博', term: 6, role: '现场导播', tags:['现场导播','跨社合作'], contribution: '树莓社2023级第一位社员。在原创歌曲大赛等活动中担任导播，完成高质量现场直播。兼任 NewCurrent 编辑社社长，促进跨社合作。', quote: '', scores:[50, 60, 75, 70, 55, 65], archive: '', photo: '' },
+
+      // 第七届
+      { id: 'yangziyan',  name: '杨梓言', term: 7, role: '第七届社长', tags:['全媒体矩阵','伟大完成论'], contribution: '建成全媒体传播矩阵（累计传播超20万次）。面对AI冲击提出“伟大完成论”，强调“从单纯技术传授升华为创意火种的传递”。', quote: '让那些转瞬即逝的声音可以被听见，让每一个创意都拥有落地生长的土壤。', scores:[80, 65, 35, 85, 90, 85], archive: '《守温度、传火种、向未来》', photo: '' },
+      { id: 'luoanqi',    name: '雒安琪', term: 7, role: '传媒中心负责人', tags:['融媒体改革','《问道山下》'], contribution: '带领传媒中心开创《问道山下》校园广播节目。主导新闻报道向融媒体形态转型，创建“苏中学生传媒”抖音账号并成功破百粉。', quote: '', scores:[65, 60, 75, 55, 70, 80], archive: '', photo: '' },
+      { id: 'zhujingxuan',name: '朱璟煊', term: 7, role: '宣策部部长 / 汉服社长', tags:['树莓酱人设','文创周边'], contribution: '主持“树莓酱”IP系统性迭代与人设打磨，开发实体周边，推进文化具象化。负责微信公众号高质量运营。兼任汉文化社社长。', quote: '', scores:[45, 65, 50, 40, 85, 60], archive: '', photo: '' },
+      { id: 'mayixiu',    name: '马宜修', term: 7, role: '第七届副社长', tags:['第七代核心','排球赛策划'], contribution: '树莓社第七代领导团体核心成员之一。主导并策划“伟民杯”排球赛全记录活动，带领社员以多种形式捕捉精彩瞬间。', quote: '', scores:[60, 60, 50, 50, 65, 75], archive: '', photo: '' },
+      { id: 'qihaoran',   name: '齐浩然', term: 7, role: '第七届副社长', tags:['第七代核心','短片主创'], contribution: '树莓社第七代领导团体核心成员之一。参与爆款创意视频《一不小心把校运会跑成了个人秀》的编剧创作，推动内容多元化。', quote: '', scores:[55, 75, 50, 60, 60, 65], archive: '', photo: '' },
+      { id: 'hanyongyan', name: '韩咏延', term: 7, role: '宣策部部长', tags: ['小红书主理','纪录片编剧'], contribution: '深度筹建并运营小红书账号“树莓酱酱酱”，开辟社团圈粉新阵地。曾参与《苏迷》纪录片第一集《清沁馈赠》的撰稿工作。', quote: '', scores:[50, 70, 65, 45, 65, 60], archive: '', photo: '' },
+      { id: 'zhengchukun',name: '郑楚琨', term: 7, role: '传媒中心骨干', tags: ['创意孵化','文创设计'], contribution: '提出建设更成熟的创意孵化体系，推动“从个人驱动转向机制驱动”。参与设计苏中明信片，并在校庆文创摊位取得佳绩。', quote: '', scores:[65, 60, 70, 50, 65, 70], archive: '', photo: '' },
+      { id: 'yinhaocheng',name: '殷豪程', term: 7, role: '数据安全组长', tags: ['短片主创','数据防线'], contribution: '创意短片《Rise》主创。负责社团数据安全监督，管理海量数字资产，在奥体校运会等多机位大型拍摄中保障数据万无一失。', quote: '', scores:[70, 65, 45, 60, 50, 65], archive: '', photo: '' },
+      { id: 'xumiyang',   name: '徐米扬', term: 7, role: '公关部部长', tags:['章程修订','形象公关'], contribution: '核心参与社团公关危机处理与舆情应对。多次参与章程修订，坚决捍卫社团非营利性与活动纯粹性，维护树莓社良好声誉。', quote: '', scores:[65, 30, 55, 40, 55, 50], archive: '', photo: '' },
+
+      // 第八届
+      { id: 'chenyuxin',  name: '陈雨馨', term: 8, role: '第八届社长', tags:['《寻找》主演','第八代核心'], contribution: '树莓社历史第一位女社长，原创微电影《寻找》主演。面对“技术过剩而产出不足”的问题提出尖锐反思，推动社团回归影像记录本质。', quote: '为什么我们树莓的技术已经足够成熟，产出却没能跟上呢？', scores:[45, 80, 50, 50, 70, 75], archive: '', photo: '' },
+      { id: 'zhangziwei', name: '张子为', term: 8, role: '第八届副社长 / 导演', tags: ['微电影导演','创意短片'], contribution: '原创微电影《寻找》编剧/导演，B站5万+播放量短片《一不小心把校运会跑成了个人秀》导演。主持《问道山下》广播，推动自主孵化模式。', quote: '', scores:[40, 85, 55, 75, 60, 65], archive: '', photo: '' },
+      { id: 'langzhiyuan',name: '郎致远', term: 8, role: '第八届核心 / 音频组长', tags:['音频统筹','《寻找》摄影'], contribution: '担任原创微电影《寻找》摄影。在2026迎新文艺晚会中负责高压音频控制，带领团队以极高效率完成复杂的后台技术工作。', quote: '这场音乐会的律动是从我指尖流出的。最好的位置不只在台前，更在每一个让声音完美绽放的角落。', scores:[50, 70, 45, 65, 55, 60], archive: '', photo: '' },
+      { id: 'jiangwangyan',name: '姜汪妍', term: 8, role: '第八届核心 / 导演', tags: ['执行导演','活动统筹'], contribution: '作为高一年级主力策划新社员见面会。在2026迎新文艺晚会中担任执行导演岗位，展现出极强的现场调度、机位指挥与大型执行能力。', quote: '', scores:[55, 65, 55, 50, 60, 75], archive: '', photo: '' }
     ];
 
-    const filterTrack = document.getElementById('termFilters');[1,2,3,4,5,6,7,8].forEach(t => {
+    const filterTrack = document.getElementById('termFilters');
+    [1,2,3,4,5,6,7,8].forEach(t => {
       const btn = document.createElement('button');
-      btn.className = 'swell-pill';
+      btn.className = 'flat-tab';
       btn.onclick = () => filterTerm(t);
       btn.dataset.term = t;
-      btn.innerHTML = `<div class="term-dot" style="color:${termColors[t]}"></div>第${termNames[t-1]}届`;
+      btn.innerHTML = `第${termNames[t-1]}届`;
       filterTrack.appendChild(btn);
     });
 
@@ -294,14 +349,17 @@
       grid.innerHTML = '';
       people.forEach(p => {
         const card = document.createElement('div');
-        card.className = 'gallery-card';
+        card.className = 'flat-card';
         card.dataset.term = p.term;
         const photoUrl = getPhotoUrl(p.name, p.term, p.photo);
         
+        // 彻底图文分离的扁平排版
         card.innerHTML = `
-          <img class="card-img" src="${photoUrl}" alt="${p.name}" loading="lazy">
-          <div class="card-badge" style="border-left: 3px solid ${termColors[p.term]}">${p.term} 届</div>
-          <div class="card-glass-panel">
+          <div class="card-img-box">
+            <div class="card-badge" style="background: ${termColors[p.term]}">${p.term} 届</div>
+            <img class="card-img" src="${photoUrl}" alt="${p.name}" loading="lazy">
+          </div>
+          <div class="card-info">
             <div class="card-name">${p.name}</div>
             <div class="card-role">${p.role}</div>
           </div>
@@ -318,23 +376,22 @@
       const overlay = document.getElementById('detailOverlay');
       const panel = document.getElementById('detailPanel');
       const content = document.getElementById('detailPanelContent');
-      const color = termColors[p.term];
       
       let quoteHtml = p.quote ? `<div class="dp-quote">${p.quote}</div>` : '';
-      let archiveHtml = p.archive ? `<div class="dp-section-title" style="border-left-color: ${color}">相关文献</div><a href="#" class="dp-archive">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+      let archiveHtml = p.archive ? `<div class="dp-section-title">相关文献</div><a href="#" class="dp-archive">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
         ${p.archive}</a>` : '';
-      let radarHtml = p.scores ? `<div class="dp-section-title" style="border-left-color: ${color}">能力雷达</div><div id="radar-chart"></div>` : '';
+      let radarHtml = p.scores ? `<div class="dp-section-title">核心素质雷达</div><div id="radar-chart"></div>` : '';
 
       content.innerHTML = `
         <img class="dp-cover" src="${photoUrl}" alt="${p.name}">
         <div class="dp-content">
           <h2 class="dp-name">${p.name}</h2>
-          <p class="dp-role" style="color: ${color}">${p.role}</p>
+          <p class="dp-role">${p.role}</p>
           <div class="dp-tags">
             ${p.tags.map(t => `<span class="dp-tag">${t}</span>`).join('')}
           </div>
-          <div class="dp-section-title" style="border-left-color: ${color}">主要履历</div>
+          <div class="dp-section-title">主要履历及贡献</div>
           <div class="dp-contribution">${p.contribution}</div>
           ${quoteHtml}
           ${radarHtml}
@@ -346,7 +403,7 @@
       panel.classList.add('active');
       document.body.style.overflow = 'hidden';
       
-      if (radarHtml) setTimeout(() => renderRadar(p, color), 350);
+      if (radarHtml) setTimeout(() => renderRadar(p, termColors[p.term]), 350);
     };
 
     window.closeDetail = function() {
@@ -361,15 +418,15 @@
       if (!radarEl || typeof echarts === 'undefined') return;
       radarChart = echarts.init(radarEl);
       radarChart.setOption({
-        tooltip: { backgroundColor: '#fff', textStyle: { color: '#333' }, borderColor: '#eee' },
+        tooltip: { backgroundColor: '#fff', textStyle: { color: '#1a1a1a' }, borderColor: '#e2e2e2' },
         radar: {
           indicator:[ 
-            { name: '规范', max: 5 }, { name: '艺术', max: 5 }, 
-            { name: '拓展', max: 5 }, { name: '技术', max: 5 }, 
-            { name: '人文', max: 5 }, { name: '管理', max: 5 }
+            { name: '规章制度', max: 5 }, { name: '艺术审美', max: 5 }, 
+            { name: '对外联络', max: 5 }, { name: '硬件技术', max: 5 }, 
+            { name: '人文温度', max: 5 }, { name: '团队管理', max: 5 }
           ],
-          shape: 'circle', radius: '60%', center:['50%', '50%'], splitNumber: 4,
-          axisName: { color: '#666', fontSize: 12 },
+          shape: 'polygon', radius: '65%', center:['50%', '50%'], splitNumber: 4,
+          axisName: { color: '#555', fontSize: 11, fontWeight: 'normal' },
           splitArea: { areaStyle: { color: ['transparent'] } },
           axisLine: { lineStyle: { color: '#eee' } },
           splitLine: { lineStyle: { color: '#eee' } }
@@ -378,22 +435,22 @@
           type: 'radar', 
           data:[{ 
             value: p.scores.map(v => v/20), name: p.name, 
-            areaStyle: { color: color + '20' }, lineStyle: { color: color, width: 2 }, 
-            itemStyle: { color: color }, symbol: 'circle', symbolSize: 6
+            areaStyle: { color: color + '15' }, lineStyle: { color: color, width: 1.5 }, 
+            itemStyle: { color: color }, symbol: 'circle', symbolSize: 4
           }] 
         }]
       });
     }
 
     window.filterTerm = function(term) {
-      document.querySelectorAll('.swell-pill').forEach(btn => {
+      document.querySelectorAll('.flat-tab').forEach(btn => {
         btn.classList.toggle('active', (term === 0 && !btn.dataset.term) || parseInt(btn.dataset.term) === term);
       });
-      document.querySelectorAll('.gallery-card').forEach(card => {
+      document.querySelectorAll('.flat-card').forEach(card => {
         if (term === 0 || parseInt(card.dataset.term) === term) {
           card.classList.remove('hide');
           card.style.animation = 'none'; card.offsetHeight; 
-          card.style.animation = 'swellFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+          card.style.animation = 'flatFadeIn 0.3s ease forwards';
         } else {
           card.classList.add('hide');
         }
