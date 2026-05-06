@@ -1,28 +1,21 @@
 <!-- 主体部分 -->
 <div id="shs-hof-app" class="shs-hof-namespace">
+  <!-- 引入 Google Fonts 中文手写字体 -->
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
   <!-- 引入 ECharts -->
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 
   <div class="hof-container">
     
-    <!-- 极简数据统计列 -->
-    <div class="flat-stats-row">
-      <div class="flat-stat-item">
-        <div class="stat-num">8</div>
-        <div class="stat-text">届组委会</div>
-      </div>
-      <div class="flat-stat-item">
-        <div class="stat-num">40</div>
-        <div class="stat-text">名人堂成员</div>
-      </div>
-      <div class="flat-stat-item">
-        <div class="stat-num">2018</div>
-        <div class="stat-text">创社年份</div>
-      </div>
-      <div class="flat-stat-item">
-        <div class="stat-num">10+</div>
-        <div class="stat-text">校际盟友</div>
-      </div>
+    <!-- 网页标题 -->
+    <div class="page-header">
+      <h1 class="page-title">
+        树莓社<span class="crossed-title">名人堂</span>
+        <span class="normal-title">历届核心成员</span>
+      </h1>
+      <p class="page-subtitle">
+        致敬每一位为社团发展做出贡献的社长
+      </p>
     </div>
 
     <!-- 极简底线 Tab 导航 -->
@@ -75,22 +68,66 @@
   }
   .shs-hof-namespace * { box-sizing: border-box; }
 
-  /* ================= 极简数据统计 ================= */
-  .shs-hof-namespace .flat-stats-row {
-    display: flex; gap: 40px; margin-bottom: 48px; justify-content: flex-start;
-    padding: 24px 0; border-top: 1px solid var(--swell-border-light); border-bottom: 1px solid var(--swell-border-light);
-    flex-wrap: wrap;
+  /* ================= 网页标题 ================= */
+  .shs-hof-namespace .page-header {
+    text-align: center;
+    padding: 48px 0;
+    border-top: 1px solid var(--swell-border-light);
+    border-bottom: 1px solid var(--swell-border-light);
+    margin-bottom: 48px;
   }
-  .shs-hof-namespace .flat-stat-item {
-    display: flex; flex-direction: column; align-items: flex-start;
+  .shs-hof-namespace .page-title {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--swell-text-main);
+    margin: 0 0 16px 0;
+    font-family: "Didot", "Georgia", serif;
+    letter-spacing: 2px;
   }
-  .shs-hof-namespace .stat-num {
-    font-size: 36px; font-weight: 400; color: var(--swell-text-main);
-    font-family: "Didot", "Georgia", serif; /* 引入衬线体增强高级感 */
-    line-height: 1; margin-bottom: 8px;
+  .shs-hof-namespace .crossed-title {
+    position: relative;
+    display: inline-block;
   }
-  .shs-hof-namespace .stat-text { 
-    font-size: 13px; color: var(--swell-text-light); letter-spacing: 1px; text-transform: uppercase;
+  .shs-hof-namespace .crossed-title::before {
+    content: '';
+    position: absolute;
+    top: 40%;
+    left: -5%;
+    width: 110%;
+    height: 4px;
+    background-color: var(--swell-brand);
+    transform: rotate(-5deg);
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  .shs-hof-namespace .crossed-title::after {
+    content: '';
+    position: absolute;
+    top: 60%;
+    left: -5%;
+    width: 110%;
+    height: 4px;
+    background-color: var(--swell-brand);
+    transform: rotate(5deg);
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  .shs-hof-namespace .normal-title {
+    margin-left: 16px;
+    color: var(--swell-brand);
+    font-weight: normal;
+    font-family: "ZCOOL KuaiLe", "ZCOOL QingKe HuangYou", cursive;
+    font-size: 1.4em;
+    transform: rotate(-2deg);
+    display: inline-block;
+    letter-spacing: 2px;
+  }
+  .shs-hof-namespace .page-subtitle {
+    font-size: 16px;
+    color: var(--swell-text-light);
+    margin: 0;
+    font-weight: 400;
+    letter-spacing: 1px;
   }
 
   /* ================= 极简底线 Tab 导航 ================= */
