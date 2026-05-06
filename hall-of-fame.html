@@ -541,7 +541,7 @@
       let archiveHtml = p.archive ? `<div class="dp-section-title">相关文献</div><a href="#" class="dp-archive">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
         ${p.archive}</a>` : '';
-      let radarHtml = p.grades ? `<div class="dp-section-title">核心素质雷达</div><div id="grade-labels"></div><div id="radar-chart"></div>` : '';
+      let radarHtml = p.grades ? `<div class="dp-section-title">角色面板</div><div id="grade-labels"></div><div id="radar-chart"></div>` : '';
       const bgColor = termColors[p.term];
       const fontSize = p.name.length <= 2 ? 22 : 18;
       
@@ -560,7 +560,7 @@
           <div class="dp-tags">
             ${p.tags.map(t => `<span class="dp-tag">${t}</span>`).join('')}
           </div>
-          <div class="dp-section-title">主要履历及贡献</div>
+          <div class="dp-section-title">角色背景故事</div>
           <div class="dp-contribution">${p.contribution}</div>
           ${quoteHtml}
           ${radarHtml}
