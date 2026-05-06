@@ -29,7 +29,7 @@
   </div>
 </div>
 
-<!-- ================= 弹窗部分独立包裹 (DOM穿梭：避开WordPress层级遮挡) ================= -->
+<!-- ================= 弹窗部分独立包裹 (DOM 穿梭：避开 WordPress 层级遮挡) ================= -->
 <div id="shs-hof-modals" class="shs-hof-namespace">
   <div class="flat-overlay" id="detailOverlay" onclick="closeDetail()"></div>
   <div class="flat-drawer" id="detailPanel">
@@ -40,7 +40,7 @@
       </svg>
     </button>
     <div class="flat-drawer-content" id="detailPanelContent">
-      <!-- 内容由JS注入 -->
+      <!-- 内容由 JS 注入 -->
     </div>
   </div>
 </div>
@@ -215,7 +215,7 @@
   .shs-hof-namespace .flat-close-btn:hover { color: var(--swell-text-main); transform: rotate(90deg); }
 
   .shs-hof-namespace .dp-cover { 
-    /* 详情页顶部照片：宽度100%，高度360px */
+    /* 详情页顶部照片：宽度 100%，高度 360px */
     width: 100%; height: 360px; object-fit: cover; 
     border-bottom: 1px solid var(--swell-border-light); 
   }
@@ -286,7 +286,7 @@
     .shs-hof-namespace .flat-stats-row { gap: 24px; padding: 16px 0; }
     .shs-hof-namespace .stat-num { font-size: 28px; }
     .shs-hof-namespace .flat-gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 24px 16px; }
-    .shs-hof-namespace .dp-cover { height: 260px; /* 移动端详情页照片高度调整为260px */ }
+    .shs-hof-namespace .dp-cover { height: 260px; /* 移动端详情页照片高度调整为 260px */ }
     .shs-hof-namespace .dp-content { padding: 32px 24px; }
     .shs-hof-namespace .dp-name { font-size: 26px; }
   }
@@ -356,7 +356,7 @@
     const getPhotoUrl = (name, term, customUrl) => {
       if (customUrl) return customUrl;
       const colorHex = termColors[term].replace('#', '');
-      // 取姓氏（前1-2个汉字），加粗，居中显示
+      // 取姓氏（前 1-2 个汉字），加粗，居中显示
       const surname = name.length <= 2 ? name : name.substring(0, 2);
       return `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(surname)}&backgroundColor=${colorHex}&textColor=ffffff&fontWeight=bold&fontSize=70`;
     };
