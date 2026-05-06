@@ -1,1008 +1,406 @@
-<div id="shs-hof-app">
-  <!-- 引入必要的图表库 (建议在Swell主题中设置为按需或延迟加载) -->
+<!-- 主体部分 -->
+<div id="shs-hof-app" class="shs-hof-namespace">
+  <!-- 引入 ECharts -->
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
 
-
-
-  <!-- 页面主体 -->
-  <div class="hof-body">
-    <!-- 图表区 -->
-    <div class="graph-section">
-      <!-- 数据统计面板 -->
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-number">8</div>
-          <div class="stat-label">届组委会</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">22</div>
-          <div class="stat-label">核心成员</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">2018</div>
-          <div class="stat-label">创社至今</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">12</div>
-          <div class="stat-label">历任社长</div>
-        </div>
+  <div class="hof-container">
+    <!-- 数据统计：Swell 轻量留白风格 -->
+    <div class="swell-stats-row">
+      <div class="swell-stat-item">
+        <div class="stat-num">8</div>
+        <div class="stat-text">届组委会</div>
       </div>
-
-      <!-- 力导向图容器 -->
-      <div class="graph-container">
-        <svg id="graph-svg">
-          <defs>
-            <marker id="arrow-inherit" viewBox="0 0 10 10" refX="10" refY="5"
-                    markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-              <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="rgba(232,80,91,0.3)"/>
-            </marker>
-          </defs>
-        </svg>
+      <div class="swell-stat-item">
+        <div class="stat-num">22</div>
+        <div class="stat-text">核心成员</div>
       </div>
-
-      <!-- 图例 -->
-      <div class="legend-widget">
-        <div class="widget-title">图例说明</div>
-        <div class="legend-list">
-          <div class="legend-item"><div class="legend-dot" style="background:#e8505b"></div>社长 / 组委会主席</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#999"></div>部长 / 核心成员</div>
-          <div class="legend-divider"></div>
-          <div class="legend-item"><div class="legend-line solid"></div>传承关系</div>
-          <div class="legend-item"><div class="legend-line dashed"></div>同届合作</div>
-          <div class="legend-item"><div class="legend-line gold"></div>跨届影响</div>
-        </div>
+      <div class="swell-stat-item">
+        <div class="stat-num">2018</div>
+        <div class="stat-text">创社年份</div>
+      </div>
+      <div class="swell-stat-item">
+        <div class="stat-num">12</div>
+        <div class="stat-text">历任社长</div>
       </div>
     </div>
 
-    <!-- 届别筛选侧边栏 -->
-    <aside class="sidebar">
-      <div class="widget">
-        <div class="widget-title">届别筛选</div>
-        <div class="timeline-list">
-          <button class="timeline-all active" onclick="filterTerm(0)">全部届别</button>
-          <div class="timeline-item" data-term="1" onclick="filterTerm(1)">
-            <div class="timeline-dot" style="background:#e8505b"></div>
-            <span class="timeline-year">2018</span>
-            <span class="timeline-term-label">第一届</span>
-          </div>
-          <div class="timeline-item" data-term="2" onclick="filterTerm(2)">
-            <div class="timeline-dot" style="background:#e88a3a"></div>
-            <span class="timeline-year">2019</span>
-            <span class="timeline-term-label">第二届</span>
-          </div>
-          <div class="timeline-item" data-term="3" onclick="filterTerm(3)">
-            <div class="timeline-dot" style="background:#d4a853"></div>
-            <span class="timeline-year">2020</span>
-            <span class="timeline-term-label">第三届</span>
-          </div>
-          <div class="timeline-item" data-term="4" onclick="filterTerm(4)">
-            <div class="timeline-dot" style="background:#5ab85a"></div>
-            <span class="timeline-year">2021</span>
-            <span class="timeline-term-label">第四届</span>
-          </div>
-          <div class="timeline-item" data-term="5" onclick="filterTerm(5)">
-            <div class="timeline-dot" style="background:#4a9ee8"></div>
-            <span class="timeline-year">2022</span>
-            <span class="timeline-term-label">第五届</span>
-          </div>
-          <div class="timeline-item" data-term="6" onclick="filterTerm(6)">
-            <div class="timeline-dot" style="background:#6878d0"></div>
-            <span class="timeline-year">2023</span>
-            <span class="timeline-term-label">第六届</span>
-          </div>
-          <div class="timeline-item" data-term="7" onclick="filterTerm(7)">
-            <div class="timeline-dot" style="background:#9868c8"></div>
-            <span class="timeline-year">2024</span>
-            <span class="timeline-term-label">第七届</span>
-          </div>
-          <div class="timeline-item" data-term="8" onclick="filterTerm(8)">
-            <div class="timeline-dot" style="background:#d86898"></div>
-            <span class="timeline-year">2025</span>
-            <span class="timeline-term-label">第八届</span>
-          </div>
-        </div>
+    <!-- 筛选标签 -->
+    <div class="swell-filter-wrap">
+      <div class="swell-filter-track" id="termFilters">
+        <button class="swell-pill active" onclick="filterTerm(0)">全部成员</button>
+        <!-- JS 自动生成 -->
       </div>
-    </aside>
-  </div>
+    </div>
 
-  <!-- 右侧滑出详情面板 -->
-  <div class="detail-panel-overlay" id="detailOverlay" onclick="closeDetail()"></div>
-  <div class="detail-panel" id="detailPanel">
-    <button class="detail-close-btn" onclick="closeDetail()">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <!-- 悬浮毛玻璃画廊网格 -->
+    <div class="swell-gallery-grid" id="photoGrid"></div>
+  </div>
+</div>
+
+<!-- ================= 弹窗部分独立包裹 (用于避开WordPress层级遮挡) ================= -->
+<div id="shs-hof-modals" class="shs-hof-namespace">
+  <div class="swell-overlay" id="detailOverlay" onclick="closeDetail()"></div>
+  <div class="swell-drawer" id="detailPanel">
+    <button class="swell-close-btn" onclick="closeDetail()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"></line>
         <line x1="6" y1="6" x2="18" y2="18"></line>
       </svg>
     </button>
-    <div class="detail-panel-content" id="detailPanelContent">
-      <div class="detail-empty-state">
-        <div class="mascot-icon">🍓</div>
-        <div>我是树莓酱！<br>点击图中的圆点，让我为您介绍历届领袖吧～</div>
-      </div>
+    <div class="swell-drawer-content" id="detailPanelContent">
+      <!-- 内容由JS注入 -->
     </div>
   </div>
+</div>
 
-  <style>
-    /* ================= 命名空间隔离样式 - 浅色主题金色风格 ================= */
-    #shs-hof-app {
-      --hof-bg: #ffffff;
-      --hof-bg-secondary: #fafafa;
-      --hof-bg-card: #ffffff;
-      --hof-bg-hover: #f5f5f5;
-      --hof-text-primary: #1a1a24;
-      --hof-text-secondary: #3a3a4a;
-      --hof-text-muted: #88889a;
-      --hof-accent: #c4a35a;
-      --hof-accent2: #b8964a;
-      --hof-accent-dim: rgba(196, 163, 90, 0.15);
-      --hof-accent-soft: rgba(196, 163, 90, 0.10);
-      --hof-border: #e0e0ea;
-      --hof-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
-      --hof-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
-      --hof-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.06);
-      --hof-shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.1);
-      --hof-radius: 14px;
-      --hof-radius-sm: 10px;
-      --hof-radius-md: 10px;
-      --hof-red: #e0556a;
-      --hof-blue: #5a8ec4;
-      --hof-green: #5ac48e;
-      --hof-purple: #9a6ac4;
-      --hof-orange: #e0884a;
-      --hof-teal: #4ac4b8;
-      --hof-pink: #d47ac4;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-      color: var(--hof-text-primary);
-      line-height: 1.85;
-      font-size: 16px;
-      padding: 24px 0;
-      max-width: 1280px;
-      margin: 0 auto;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      background: var(--hof-bg);
-    }
-
-    #shs-hof-app * { box-sizing: border-box; }
-
-    /* 页面头部 */
-    #shs-hof-app .hof-header {
-      text-align: center;
-      margin-bottom: 40px;
-      padding-bottom: 32px;
-      position: relative;
-    }
-    #shs-hof-app .hof-header::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 2px;
-      background: var(--hof-accent);
-      border-radius: 2px;
-    }
-    #shs-hof-app .hof-header h1 {
-      font-size: clamp(30px, 5vw, 44px);
-      font-weight: 700;
-      color: var(--hof-text-primary);
-      letter-spacing: 4px;
-      margin: 16px 0 8px;
-      border: none;
-      padding: 0;
-      line-height: 1.3;
-    }
-    #shs-hof-app .en-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--hof-accent);
-      letter-spacing: 6px;
-      text-transform: uppercase;
-    }
-    #shs-hof-app .desc {
-      font-size: 15px;
-      color: var(--hof-text-muted);
-      font-weight: 400;
-      max-width: 620px;
-      margin: 0 auto;
-      line-height: 1.7;
-    }
-
-    /* 页面主体 */
-    #shs-hof-app .hof-body {
-      display: flex;
-      gap: 28px;
-      align-items: flex-start;
-    }
-
-    /* 图表区 */
-    #shs-hof-app .graph-section {
-      flex: 1;
-      min-width: 0;
-    }
-    #shs-hof-app .graph-container {
-      background: var(--hof-bg-card);
-      border: 1px solid var(--hof-border);
-      border-radius: var(--hof-radius);
-      box-shadow: var(--hof-shadow-xl);
-      overflow: hidden;
-      position: relative;
-    }
-    #shs-hof-app .graph-container::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 50% 30%, rgba(196, 163, 90, 0.12) 0%, transparent 50%),
-                  radial-gradient(ellipse at 20% 80%, rgba(90, 142, 196, 0.08) 0%, transparent 40%),
-                  radial-gradient(ellipse at 80% 70%, rgba(154, 106, 196, 0.06) 0%, transparent 40%);
-      pointer-events: none;
-      z-index: 0;
-    }
-    #shs-hof-app #graph-svg {
-      width: 100%;
-      height: 650px;
-      display: block;
-      background: linear-gradient(135deg, rgba(196, 163, 90, 0.03) 0%, rgba(90, 142, 196, 0.02) 100%);
-      cursor: grab;
-      position: relative;
-      z-index: 1;
-    }
-    #shs-hof-app #graph-svg:active { cursor: grabbing; }
-
-    /* SVG 图表样式 */
-    #shs-hof-app .link-inherit { stroke: rgba(196, 163, 90, 0.35); stroke-width: 2; fill: none; marker-end: url(#arrow-inherit); }
-    #shs-hof-app .link-collab { stroke: rgba(255, 255, 255, 0.08); stroke-width: 1.5; stroke-dasharray: 4 4; fill: none; }
-    #shs-hof-app .link-influence { stroke: rgba(196, 163, 90, 0.2); stroke-width: 1.5; stroke-dasharray: 3 6; fill: none; }
-    #shs-hof-app .node-group { cursor: pointer; }
-    #shs-hof-app .node-circle { transition: filter 0.3s, stroke-width 0.3s, r 0.2s; }
-    #shs-hof-app .node-group:hover .node-circle { 
-      filter: drop-shadow(0 4px 12px rgba(196, 163, 90, 0.4));
-    }
-    #shs-hof-app .node-group.selected .node-circle { 
-      stroke: var(--hof-accent) !important; 
-      stroke-width: 3; 
-      filter: drop-shadow(0 4px 16px rgba(196, 163, 90, 0.5));
-    }
-    #shs-hof-app .node-label { font-size: 12px; fill: var(--hof-text-secondary); text-anchor: middle; pointer-events: none; font-weight: 500; }
-    #shs-hof-app .node-group:hover .node-label, #shs-hof-app .node-group.selected .node-label { fill: var(--hof-text-primary); font-weight: 600; }
-    #shs-hof-app .node-role { font-size: 10px; fill: var(--hof-text-muted); text-anchor: middle; pointer-events: none; }
-    #shs-hof-app .term-group-label { font-size: 13px; fill: var(--hof-text-muted); text-anchor: middle; font-weight: 600; letter-spacing: 1px; opacity: 0.6; pointer-events: none; }
-
-    /* 侧边栏与小组件 */
-    #shs-hof-app .sidebar { width: 300px; flex-shrink: 0; }
-    #shs-hof-app .widget {
-      background: var(--hof-bg-card);
-      border: 1px solid var(--hof-border);
-      border-radius: var(--hof-radius);
-      box-shadow: var(--hof-shadow-md);
-      padding: 24px;
-      margin-bottom: 20px;
-      transition: box-shadow 0.3s, border-color 0.3s;
-    }
-    #shs-hof-app .widget:hover {
-      border-color: rgba(196, 163, 90, 0.3);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    }
-    #shs-hof-app .widget-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--hof-text-primary);
-      letter-spacing: 2px;
-      margin-bottom: 18px;
-      padding-bottom: 14px;
-      border-bottom: 2px solid var(--hof-border);
-      position: relative;
-    }
-    #shs-hof-app .widget-title::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 50px;
-      height: 2px;
-      background: var(--hof-accent);
-    }
-    #shs-hof-app .timeline-list { display: flex; flex-direction: column; gap: 4px; }
-    #shs-hof-app .timeline-item, #shs-hof-app .timeline-all {
-      display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: var(--hof-radius-sm); cursor: pointer; transition: all 0.2s ease;
-      border: none; background: transparent; width: 100%; font-family: inherit; font-size: 14px; color: var(--hof-text-secondary); font-weight: 500; text-align: left;
-    }
-    #shs-hof-app .timeline-item:hover, #shs-hof-app .timeline-all:hover { 
-      background: var(--hof-accent-soft); 
-      transform: translateX(4px); 
-      color: var(--hof-accent2);
-    }
-    #shs-hof-app .timeline-item.active, #shs-hof-app .timeline-all.active { 
-      background: var(--hof-accent-soft); 
-      color: var(--hof-accent2); 
-      font-weight: 600; 
-    }
-    #shs-hof-app .timeline-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; border: 2px solid var(--hof-border); transition: all 0.2s; }
-    #shs-hof-app .timeline-item.active .timeline-dot { border-color: var(--hof-accent); background: var(--hof-accent) !important; }
-    #shs-hof-app .timeline-year { min-width: 40px; font-weight: 600; }
-    #shs-hof-app .timeline-term-label { font-size: 13px; color: var(--hof-text-muted); font-weight: 400; }
+<style>
+  /* ================= 核心命名空间与变量 ================= */
+  .shs-hof-namespace {
+    --swell-brand: #d44d5c; /* 树莓红 */
+    --swell-brand-light: rgba(212, 77, 92, 0.08);
+    --swell-accent: #c4a35a; /* 荣誉金 */
+    --swell-bg: #ffffff;
+    --swell-bg-gray: #f7f9fa;
+    --swell-text-main: #333333;
+    --swell-text-sub: #666666;
+    --swell-text-light: #999999;
+    --swell-border: #eef0f2;
+    --swell-radius: 12px;
+    --swell-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    --swell-transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     
-    /* 统计卡片 */
-    #shs-hof-app .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 24px; }
-    #shs-hof-app .stat-card { 
-      background: var(--hof-bg-card); 
-      border: 1px solid var(--hof-border); 
-      border-radius: var(--hof-radius); 
-      padding: 20px 16px; 
-      text-align: center;
-      box-shadow: var(--hof-shadow-md);
-      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-    #shs-hof-app .stat-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(196, 163, 90, 0.03) 0%, transparent 50%);
-      pointer-events: none;
-    }
-    #shs-hof-app .stat-card:hover { 
-      transform: translateY(-4px); 
-      box-shadow: var(--hof-shadow-xl); 
-      border-color: rgba(196, 163, 90, 0.35);
-    }
-    #shs-hof-app .stat-number { 
-      font-size: 32px; font-weight: 700; 
-      color: var(--hof-accent); line-height: 1;
-      background: linear-gradient(135deg, var(--hof-accent) 0%, var(--hof-accent2) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-feature-settings: "tnum";
-    }
-    #shs-hof-app .stat-label { font-size: 11px; color: var(--hof-text-muted); margin-top: 8px; letter-spacing: 1px; font-weight: 500; text-transform: uppercase; }
+    font-family: inherit;
+    color: var(--swell-text-main);
+    max-width: 100%;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+  .shs-hof-namespace * { box-sizing: border-box; }
 
-    /* 图例组件 */
-    #shs-hof-app .legend-widget {
-      margin-top: 20px;
-      background: var(--hof-bg-card);
-      border: 1px solid var(--hof-border);
-      border-radius: var(--hof-radius);
-      box-shadow: var(--hof-shadow-md);
-      padding: 22px 24px;
-      transition: box-shadow 0.3s, border-color 0.3s;
-    }
-    #shs-hof-app .legend-widget:hover {
-      border-color: rgba(196, 163, 90, 0.2);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-    }
-    #shs-hof-app .legend-list { display: flex; flex-direction: row; flex-wrap: wrap; gap: 16px 24px; }
-    #shs-hof-app .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--hof-text-secondary); }
-    #shs-hof-app .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.2); }
-    #shs-hof-app .legend-divider { width: 1px; height: 20px; background: var(--hof-border); }
-    #shs-hof-app .legend-line { width: 20px; height: 0; flex-shrink: 0; }
-    #shs-hof-app .legend-line.solid { border-top: 2px solid rgba(196,163,90,0.6); }
-    #shs-hof-app .legend-line.dashed { border-top: 1.5px dashed rgba(0,0,0,0.2); }
-    #shs-hof-app .legend-line.gold { border-top: 1.5px dashed rgba(196,163,90,0.5); }
+  /* ================= 统计区域 ================= */
+  .shs-hof-namespace .swell-stats-row {
+    display: flex; gap: 24px; margin-bottom: 40px; justify-content: center; flex-wrap: wrap;
+  }
+  .shs-hof-namespace .swell-stat-item {
+    text-align: center; min-width: 100px; padding: 16px; position: relative;
+  }
+  .shs-hof-namespace .swell-stat-item:not(:last-child)::after {
+    content: ''; position: absolute; right: -12px; top: 20%; height: 60%;
+    width: 1px; background: var(--swell-border);
+  }
+  .shs-hof-namespace .stat-num {
+    font-size: 32px; font-weight: 700; color: var(--swell-brand);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 1.1; margin-bottom: 4px;
+  }
+  .shs-hof-namespace .stat-text { font-size: 12px; color: var(--swell-text-light); font-weight: normal; }
 
-    /* 黯淡状态 */
-    #shs-hof-app .node-group.dimmed .node-circle, #shs-hof-app .node-group.dimmed .node-label, #shs-hof-app .node-group.dimmed .node-role { opacity: 0.15; }
-    #shs-hof-app .link-inherit.dimmed { opacity: 0.05; }
-    #shs-hof-app .link-collab.dimmed, #shs-hof-app .link-influence.dimmed { opacity: 0.03; }
+  /* ================= 筛选导航 ================= */
+  .shs-hof-namespace .swell-filter-wrap {
+    margin-bottom: 32px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    padding-bottom: 8px; border-bottom: 1px solid var(--swell-border);
+  }
+  .shs-hof-namespace .swell-filter-wrap::-webkit-scrollbar { display: none; }
+  .shs-hof-namespace .swell-filter-track { display: flex; gap: 12px; padding: 0 4px; }
+  .shs-hof-namespace .swell-pill {
+    flex-shrink: 0; padding: 6px 18px; background: transparent; border: 1px solid var(--swell-border);
+    border-radius: 30px; font-size: 14px; color: var(--swell-text-sub);
+    cursor: pointer; transition: var(--swell-transition); display: flex; align-items: center; gap: 6px;
+  }
+  .shs-hof-namespace .swell-pill:hover { background: var(--swell-bg-gray); color: var(--swell-text-main); }
+  .shs-hof-namespace .swell-pill.active {
+    background: var(--swell-brand); color: #fff; border-color: var(--swell-brand);
+    box-shadow: 0 4px 10px var(--swell-brand-light);
+  }
+  .shs-hof-namespace .term-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.8; }
+  .shs-hof-namespace .swell-pill.active .term-dot { background: #fff; opacity: 1; }
 
-    /* ================= 右侧滑出详情面板 ================= */
-    #shs-hof-app .detail-panel-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      z-index: 9998;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.35s ease, visibility 0.35s ease;
-    }
-    #shs-hof-app .detail-panel-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
+  /* ================= 照片画廊：毛玻璃风格 ================= */
+  .shs-hof-namespace .swell-gallery-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px;
+  }
+  
+  .shs-hof-namespace .gallery-card {
+    position: relative; aspect-ratio: 3 / 4; border-radius: var(--swell-radius);
+    overflow: hidden; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    transition: var(--swell-transition); background: #eaeaea;
+  }
+  .shs-hof-namespace .gallery-card.hide { display: none; }
+  .shs-hof-namespace .gallery-card:hover { transform: translateY(-6px); box-shadow: var(--swell-shadow); }
 
-    #shs-hof-app .detail-panel {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 440px;
-      max-width: 95vw;
-      height: 100vh;
-      background: var(--hof-bg-card);
-      box-shadow: -8px 0 30px rgba(0, 0, 0, 0.1);
-      z-index: 9999;
-      transform: translateX(100%);
-      transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-      overflow-y: auto;
-      border-left: 1px solid var(--hof-border);
-    }
-    #shs-hof-app .detail-panel.active {
-      transform: translateX(0);
-    }
+  .shs-hof-namespace .card-img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .shs-hof-namespace .gallery-card:hover .card-img { transform: scale(1.06); }
 
-    #shs-hof-app .detail-close-btn {
-      position: sticky;
-      top: 0;
-      right: 0;
-      width: 100%;
-      padding: 20px;
-      display: flex;
-      justify-content: flex-end;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--hof-border);
-      border: none;
-      cursor: pointer;
-      z-index: 1;
-    }
-    #shs-hof-app .detail-close-btn svg {
-      color: var(--hof-text-muted);
-      width: 28px;
-      height: 28px;
-      padding: 8px;
-      background: var(--hof-bg-secondary);
-      border-radius: 50%;
-      transition: all 0.25s;
-    }
-    #shs-hof-app .detail-close-btn:hover svg {
-      background: var(--hof-accent-soft);
-      color: var(--hof-accent2);
-      transform: rotate(90deg);
-    }
+  .shs-hof-namespace .card-badge {
+    position: absolute; top: 12px; left: 12px;
+    padding: 4px 12px; border-radius: 20px;
+    font-size: 11px; font-weight: 700; color: #fff;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.2); z-index: 2;
+  }
 
-    #shs-hof-app .detail-panel-content {
-      padding: 80px 28px 40px;
-    }
+  .shs-hof-namespace .card-glass-panel {
+    position: absolute; bottom: 12px; left: 12px; right: 12px;
+    background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 8px;
+    padding: 12px 16px; z-index: 2; transition: var(--swell-transition);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .shs-hof-namespace .gallery-card:hover .card-glass-panel {
+    background: rgba(255, 255, 255, 0.98); transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  
+  .shs-hof-namespace .card-name { font-size: 18px; font-weight: 800; margin: 0 0 2px; color: var(--swell-text-main); line-height: 1.2; }
+  .shs-hof-namespace .card-role { font-size: 12px; color: var(--swell-text-sub); font-weight: 500; }
 
-    #shs-hof-app .detail-empty-state {
-      text-align: center;
-      padding: 100px 20px;
-      color: var(--hof-text-muted);
-    }
-    #shs-hof-app .mascot-icon { font-size: 56px; margin-bottom: 20px; }
+  /* ================= 详情侧边栏 (极高 Z-index 穿透) ================= */
+  .shs-hof-namespace .swell-overlay {
+    position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4);
+    z-index: 9999998; /* 【重要修复】极高的层级 */
+    opacity: 0; visibility: hidden; transition: opacity 0.3s ease;
+  }
+  .shs-hof-namespace .swell-overlay.active { opacity: 1; visibility: visible; }
+  
+  .shs-hof-namespace .swell-drawer {
+    position: fixed; top: 0; right: 0;
+    width: 500px; max-width: 100vw; height: 100vh;
+    background: var(--swell-bg); box-shadow: -4px 0 24px rgba(0,0,0,0.1);
+    z-index: 9999999; /* 【重要修复】极高的层级 */
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow-y: auto; display: flex; flex-direction: column;
+  }
+  .shs-hof-namespace .swell-drawer.active { transform: translateX(0); }
+  
+  .shs-hof-namespace .swell-close-btn {
+    position: absolute; top: 16px; right: 16px;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,0.8); border: 1px solid var(--swell-border);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--swell-text-sub); z-index: 10; transition: var(--swell-transition);
+  }
+  .shs-hof-namespace .swell-close-btn:hover { color: var(--swell-brand); border-color: var(--swell-brand); }
 
-    /* 人物详情内容 - 领袖卡片风格 */
-    #shs-hof-app .person-card {
-      background: var(--hof-bg-card);
-      border: 1px solid var(--hof-border);
-      border-radius: var(--hof-radius);
-      overflow: hidden;
-      margin-bottom: 20px;
-      box-shadow: var(--hof-shadow-xl);
-      transition: box-shadow 0.3s, transform 0.2s;
-    }
-    #shs-hof-app .person-card:hover {
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-    }
-    
-    #shs-hof-app .person-header-section {
-      padding: 24px 28px;
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      border-bottom: 1px solid var(--hof-border);
-      background: linear-gradient(135deg, rgba(196,163,90,0.03) 0%, transparent 100%);
-    }
-    
-    #shs-hof-app .gen-tag {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      padding: 6px 10px;
-      border-radius: var(--hof-radius-sm);
-      color: #fff;
-      white-space: nowrap;
-      text-align: center;
-      line-height: 1.5;
-      flex-shrink: 0;
-      min-width: 70px;
-    }
-    
-    #shs-hof-app .person-title-group {
-      min-width: 0;
-      flex: 1;
-    }
-    
-    #shs-hof-app .person-title-group h2 {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--hof-text-primary);
-      line-height: 1.3;
-      margin: 0 0 6px;
-    }
-    
-    #shs-hof-app .person-role {
-      font-size: 14px;
-      color: var(--hof-accent);
-      font-weight: 500;
-      line-height: 1.5;
+  .shs-hof-namespace .dp-cover { width: 100%; height: 320px; object-fit: cover; border-bottom: 1px solid var(--swell-border); }
+  .shs-hof-namespace .dp-content { padding: 32px; }
+  
+  .shs-hof-namespace .dp-name { font-size: 28px; font-weight: bold; margin: 0 0 8px; color: var(--swell-text-main); line-height: 1.3; }
+  .shs-hof-namespace .dp-role { font-size: 15px; color: var(--swell-brand); font-weight: 500; margin: 0 0 20px; }
+  
+  .shs-hof-namespace .dp-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+  .shs-hof-namespace .dp-tag {
+    font-size: 12px; padding: 4px 10px; background: var(--swell-bg-gray); 
+    border: 1px solid var(--swell-border); border-radius: 4px; color: var(--swell-text-sub);
+  }
+  
+  .shs-hof-namespace .dp-section-title {
+    font-size: 18px; font-weight: bold; color: var(--swell-text-main);
+    margin: 32px 0 16px; padding: 6px 0 6px 12px;
+    border-left: 4px solid var(--swell-brand);
+    border-bottom: 1px solid var(--swell-border);
+  }
+  
+  .shs-hof-namespace .dp-contribution { font-size: 15px; line-height: 1.8; color: var(--swell-text-sub); margin-bottom: 24px; }
+  
+  .shs-hof-namespace .dp-quote {
+    padding: 16px 20px; background: var(--swell-bg-gray); 
+    border-left: 4px solid var(--swell-accent); border-radius: 0 4px 4px 0;
+    font-size: 15px; color: var(--swell-text-sub); font-style: italic; margin-bottom: 24px;
+  }
+  
+  .shs-hof-namespace #radar-chart {
+    width: 100%; height: 300px; background: #fff;
+    border: 1px solid var(--swell-border); border-radius: 8px;
+  }
+
+  .shs-hof-namespace .dp-archive {
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 12px;
+    font-size: 14px; color: var(--swell-accent); text-decoration: none; transition: color 0.2s;
+  }
+  .shs-hof-namespace .dp-archive:hover { color: var(--swell-brand); text-decoration: underline; }
+
+  @media (max-width: 768px) {
+    .shs-hof-namespace .swell-stats-row { gap: 16px; }
+    .shs-hof-namespace .swell-stat-item { min-width: 80px; padding: 10px; }
+    .shs-hof-namespace .swell-stat-item:not(:last-child)::after { display: none; } 
+    .shs-hof-namespace .stat-num { font-size: 24px; }
+    .shs-hof-namespace .swell-gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .shs-hof-namespace .card-name { font-size: 15px; }
+    .shs-hof-namespace .card-glass-panel { padding: 8px 12px; bottom: 8px; left: 8px; right: 8px; }
+    .shs-hof-namespace .dp-cover { height: 260px; }
+    .shs-hof-namespace .dp-content { padding: 24px; }
+    .shs-hof-namespace .dp-name { font-size: 24px; }
+  }
+
+  @keyframes swellFadeIn {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+
+    // 【核心防御机制】: 将弹窗结构移动到 HTML 根部的 <body> 下，彻底摆脱 WordPress 主题 Header 的遮挡
+    const modalsContainer = document.getElementById('shs-hof-modals');
+    if (modalsContainer && modalsContainer.parentNode !== document.body) {
+      document.body.appendChild(modalsContainer);
     }
 
-    #shs-hof-app .person-body {
-      padding: 28px 32px;
-    }
+    const termColors = {
+      1: '#d44d5c', 2: '#e57a44', 3: '#c4a35a', 4: '#5a9c7c',
+      5: '#5c80bc', 6: '#8a6baf', 7: '#bc6c9b', 8: '#4aaba0'
+    };
+    const termNames =['一','二','三','四','五','六','七','八'];
 
-    #shs-hof-app .person-tag-section {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 26px;
-    }
-    
-    #shs-hof-app .person-tag {
-      font-size: 11px;
-      padding: 5px 12px;
-      border-radius: 20px;
-      background: var(--hof-accent-soft);
-      color: var(--hof-accent);
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-    #shs-hof-app .person-tag.secondary {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--hof-text-secondary);
-    }
+    const getPhotoUrl = (name, term, customUrl) => {
+      if (customUrl) return customUrl;
+      const colorHex = termColors[term].replace('#', '');
+      return `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}&backgroundColor=${colorHex}&textColor=ffffff&fontWeight=bold`;
+    };
 
-    #shs-hof-app .detail-section {
-      margin-bottom: 26px;
-    }
-    #shs-hof-app .detail-section-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--hof-accent);
-      letter-spacing: 3px;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-    }
-    #shs-hof-app .person-contribution {
-      font-size: 15px;
-      color: var(--hof-text-secondary);
-      line-height: 1.85;
-      padding: 20px 24px;
-      background: var(--hof-accent-dim);
-      border-left: 3px solid var(--hof-accent);
-      border-radius: 0 var(--hof-radius-sm) var(--hof-radius-sm) 0;
-    }
-    
-    #shs-hof-app .person-quote {
-      margin: 22px 0;
-      padding: 18px 24px;
-      background: var(--hof-accent-dim);
-      border-left: 3px solid var(--hof-accent);
-      border-radius: 0 var(--hof-radius-sm) var(--hof-radius-sm) 0;
-      font-size: 14.5px;
-      color: var(--hof-text-secondary);
-      font-style: italic;
-      line-height: 1.75;
-    }
-    #shs-hof-app .person-quote .quote-src {
-      font-size: 12px;
-      color: var(--hof-text-muted);
-      margin-top: 10px;
-      font-style: normal;
-      display: block;
-    }
-    
-    #shs-hof-app #radar-chart {
-      width: 100%;
-      height: 260px;
-      margin: 12px auto 0;
-      background: var(--hof-bg-secondary);
-      border-radius: var(--hof-radius-sm);
-      border: 1px solid var(--hof-border);
-    }
-    
-    #shs-hof-app .archive-links {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    #shs-hof-app .archive-link {
-      font-size: 13px;
-      color: var(--hof-accent);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 16px;
-      border: 1px solid var(--hof-accent-soft);
-      border-radius: var(--hof-radius-sm);
-      transition: all 0.2s;
-      font-weight: 500;
-    }
-    #shs-hof-app .archive-link:hover {
-      background: var(--hof-accent-soft);
-      transform: translateX(4px);
-    }
+    const people =[
+      { id: 'mayuzhang',  name: '马雨璋', term: 1, role: '社长 · 联合创始人', tags:['创社核心','传媒中心','《苏迷》'], contribution: '确立树莓社以影视创作为核心的社团定位，创立传媒中心。领导制作纪录片《苏迷》，带领社员参加48小时电影马拉松比赛。', quote: '当你的声音流淌，世界屏息静听；当你的镜头开启，天地重赋色彩。', scores:[5, 85, 40, 55, 30, 45], archive: '《数媒社创社策划案》', photo: '' },
+      { id: 'zhangshihan',name: '张诗菡', term: 1, role: '副社长 · 联合创始人', tags:['Logo设计','除夕拜年','视觉形象'], contribution: '设计树莓社社团Logo和传媒中心台标，创造了树莓社的视觉形象。担任纪录片《苏迷》总撰稿。', quote: '第一次组织全然陌生的社员参加大型活动，过程真的很美妙。', scores:[20, 70, 30, 45, 50, 40], archive: '', photo: '' },
+      { id: 'shensunfeng',name: '沈孙丰', term: 1, role: '部长 · 联合创始人', tags:['命名树莓','树莓派','社团联盟'], contribution: '提出用"树莓"代替"数字媒体"，主导社团管理体制民主改革。联合发起树莓派援助武汉募捐活动，募集数十万元善款。', quote: '我们用行动回应了那些争议和误解，找到独属于我们的活动。', scores:[68, 45, 90, 50, 60, 75], archive: '《树莓社章程》', photo: '' },
+      { id: 'shiyunhan',  name: '石允涵', term: 2, role: '第二届社长', tags:['双社长制','照片直播'], contribution: '引入照片直播工作模式，开创摄影志愿服务品牌，担任传媒中心负责人。', quote: '', scores:[45, 25, 60, 70, 75, 50], archive: '', photo: 'https://szzxshumei.com/wp-content/uploads/2020/12/00000fce-cf5a-765c-4112-63519500030a.jpg' },
+      { id: 'liuenqi',    name: '刘恩岐', term: 2, role: '第二届社长', tags:['经费保障','后期部'], contribution: '设计第二代工作证，为社团运营提供重要经费保障，担任第二届组委会主席。', quote: '', scores:[55, 35, 50, 45, 55, 50], archive: '', photo: '' },
+      { id: 'zhuyi',      name: '朱奕',   term: 3, role: '第三届社长', tags:['走出困境','识茶记'], contribution: '带领社团走出发展困境。举办"破界"创意摄影大赛，完成微电影《识茶记》。', quote: '', scores:[55, 55, 65, 60, 55, 60], archive: '', photo: 'https://szzxshumei.com/wp-content/uploads/2025/01/00000fcf-3644-74ea-4980-218fa85e3b2d.jpg' },
+      { id: 'yezhuo',     name: '叶卓',   term: 3, role: '代理社长', tags:['B站开创','社团联盟'], contribution: '开创树莓社B站账号，当选社团联盟理事会主席，将"校级赋能"升级为常态发展引擎。', quote: '', scores:[60, 50, 75, 55, 45, 55], archive: '', photo: '' },
+      { id: 'wangyiyang', name: '汪翊扬', term: 4, role: '第四届社长', tags:['创纪录招新','网课坚持'], contribution: '克服疫情坚持线上活动，纳新70人达历史之最。推动成立"树莓派"校际联盟。', quote: '', scores:[72, 60, 55, 55, 50, 65], archive: '', photo: '' },
+      { id: 'wangzhexi',  name: '王哲熙', term: 4, role: '编导部部长', tags:['温度口号','内容创作'], contribution: '提出"用有温度、有力量的作品，影响一群人，温暖一座城"，担任编导部部长。', quote: '用有温度、有力量的作品，影响一群人，温暖一座城。', scores:[35, 75, 30, 40, 80, 35], archive: '', photo: '' },
+      { id: 'liqian',     name: '李谦',   term: 5, role: '第五届社长', tags:['线下回归','拍摄担当'], contribution: '以"蒙故业，因遗策"为治社纲领，采取过渡性战略，将重心转移回线下凝聚。', quote: '', scores:[50, 50, 50, 45, 85, 55], archive: '', photo: '' },
+      { id: 'zhouyijia',  name: '周熠嘉', term: 6, role: '第六届社长', tags:['数字化转型','十佳社团'], contribution: '推动树莓派联盟签约成立，建立社团数据库与文献库，开创《树莓日签》。', quote: '', scores:[60, 40, 75, 55, 70, 70], archive: '', photo: '' },
+      { id: 'yangziyan',  name: '杨梓言', term: 7, role: '第七届社长', tags:['全媒体矩阵','组织进化'], contribution: '推动社团治理变革，建成全媒体传播矩阵，累计传播超20万人次。', quote: '', scores:[80, 65, 35, 85, 90, 85], archive: '', photo: '' },
+      { id: 'chenyuxin',  name: '陈雨馨', term: 8, role: '第八届社长', tags:['寻找主演','优秀社员'], contribution: '第一位女社长，微电影《寻找》主演，掌舵社团延续影像薪火。', quote: '', scores:[30, 80, 60, 50, 75, 55], archive: '', photo: '' }
+    ];
 
-    /* ================= 移动端响应式优化 ================= */
-    @media (max-width: 1024px) {
-      #shs-hof-app .hof-body { flex-direction: column; }
-      #shs-hof-app .sidebar { width: 100%; }
-      #shs-hof-app #graph-svg { height: 550px; }
-      #shs-hof-app .timeline-list { flex-direction: row; overflow-x: auto; padding-bottom: 10px; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
-      #shs-hof-app .timeline-item, #shs-hof-app .timeline-all { flex: 0 0 auto; width: auto; white-space: nowrap; }
-      #shs-hof-app .legend-list { justify-content: center; }
-    }
+    const filterTrack = document.getElementById('termFilters');[1,2,3,4,5,6,7,8].forEach(t => {
+      const btn = document.createElement('button');
+      btn.className = 'swell-pill';
+      btn.onclick = () => filterTerm(t);
+      btn.dataset.term = t;
+      btn.innerHTML = `<div class="term-dot" style="color:${termColors[t]}"></div>第${termNames[t-1]}届`;
+      filterTrack.appendChild(btn);
+    });
 
-    @media (max-width: 640px) {
-      #shs-hof-app { padding: 16px 0; }
-      #shs-hof-app .hof-header h1 { font-size: 28px; letter-spacing: 3px; }
-      #shs-hof-app .stats-row { gap: 12px; }
-      #shs-hof-app .stat-card { padding: 16px 12px; min-width: 70px; }
-      #shs-hof-app .stat-number { font-size: 24px; }
-      #shs-hof-app .stat-label { font-size: 10px; }
-      #shs-hof-app #graph-svg { height: 450px; }
-      #shs-hof-app .timeline-year { display: none; }
-      #shs-hof-app .detail-panel { width: 100%; max-width: 100vw; }
-      #shs-hof-app .person-photo { width: 140px; height: 140px; font-size: 48px; border-radius: 20px; }
-      #shs-hof-app .person-header h2 { font-size: 22px; }
-    }
-  </style>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      // 颜色定义
-      const termColors = {
-        1: '#e8505b', 2: '#e88a3a', 3: '#d4a853', 4: '#5ab85a',
-        5: '#4a9ee8', 6: '#6878d0', 7: '#9868c8', 8: '#d86898'
-      };
-
-      // 六维光谱维度定义
-      const spectrumLabels = ['制度规范化', '艺术创作导向', '对外拓展', '技术革新驱动', '人文温度传承', '组织管理能力'];
-      
-      // 核心人物数据扩展 (根据《苏州中学树莓社社团发展史》深度整合)
-      // scores数组顺序: [制度规范化, 艺术创作导向, 对外拓展, 技术革新驱动, 人文温度传承, 组织管理能力]
-      // 六维光谱维度定义: D1制度规范化, D2艺术创作导向, D3对外拓展, D4技术革新驱动, D5人文温度传承, D6组织管理能力
-      const people = [
-        { id: 'mayuzhang',  name: '马雨璋', term: 1, role: '第一任社长 · 联合创始人', tags: ['创社核心','传媒中心','《苏迷》','纽约大学'], contribution: '确立树莓社以影视创作为核心的社团定位，按剧组分工法设立摄影、配音、宣传、后期、咸鱼、编导六组。创立苏州中学传媒中心，创作多期《洱沐苏中》电视节目。领导制作纪录片《苏迷》，带领社员参加FilMarathon2019上海48小时电影马拉松比赛。', quote: '当你的声音流淌，世界屏息静听；当你的镜头开启，天地重赋色彩。', scores: [5, 85, 40, 55, 30, 45], archive: '《数媒社创社策划案》', photo: '' },
-        { id: 'zhangshihan',name: '张诗菡', term: 1, role: '第一任副社长 · 联合创始人', tags: ['Logo设计','除夕拜年','视觉形象','节目总策划'], contribution: '设计树莓社社团Logo和苏州中学传媒中心台标，创造了树莓社的视觉形象。担任纪录片《苏迷》总撰稿，参与预告片制作。策划苏州中学2019年新年拜年视频。', quote: '第一次组织全然陌生的社员参加大型活动、第一次在那么多人面前宣传社团，一步步地，从不了解到了解，过程真的很美妙。', scores: [20, 70, 30, 45, 50, 40], archive: '', photo: '' },
-        { id: 'shensunfeng',name: '沈孙丰', term: 1, role: '第一届摄影部部长 · 联合创始人', tags: ['命名树莓','树莓派','社团联盟','中国传媒大学'], contribution: '提出用"树莓"代替"数字媒体"，赋予社团独特文化符号。主导社团管理体制民主改革，引入组织委员会制度与权力制衡机制，起草《苏州中学树莓社章程》，提出"树莓派计划"构想。2020年1月联合发起树莓派援助武汉募捐活动，募集数十万元善款。', quote: '我们用行动回应了那些争议和误解，我们不会抢他们的活动，而是发现自己的特色、找到独属于我们的活动。', scores: [68, 45, 90, 50, 60, 75], archive: '《苏州中学树莓社章程》', photo: '' },
-        { id: 'shiyunhan',  name: '石允涵', term: 2, role: '第二届社长', tags: ['双社长制','照片直播','摄影志愿','上海纽约大学'], contribution: '第二届双社长之一，引入照片直播工作模式，开创摄影志愿服务品牌，担任传媒中心负责人。协助宅文化社筹备成立，拍摄高三成人礼、健身操大赛集锦等活动。', quote: '', scores: [45, 25, 60, 70, 75, 50], archive: '', photo: '' },
-        { id: 'liuenqi',    name: '刘恩岐', term: 2, role: '第二届社长', tags: ['双社长制','经费保障','后期部'], contribution: '第二届双社长之一，大力发扬树莓文化，设计第二代工作证，为社团运营提供重要经费保障，担任第二届组委会主席、后期部部长。执笔第二届社员大会社团年度工作报告。', quote: '', scores: [55, 35, 50, 45, 55, 50], archive: '', photo: '' },
-        { id: 'xingxiaohan',name: '邢笑菡', term: 2, role: '第二届代理社长', tags: ['代理社长','社团联盟'], contribution: '2020年11-12月担任代理社长，主持社团换届。与谭嘉怡共同提出音乐部+配音部→表播部的部门优化方案。担任社团联盟副理事长，获得社团联盟特殊贡献奖。', quote: '', scores: [45, 20, 55, 35, 45, 40], archive: '', photo: '' },
-        { id: 'zhuyi',      name: '朱奕',   term: 3, role: '第三届社长', tags: ['走出困境','识茶记','差额选举'], contribution: '通过差额选举当选，带领社团走出发展困境，明确社团发展方向。举办"破界"跨校创意摄影大赛。推动社团文化和宣传创新，完成微电影《识茶记》等作品。', quote: '', scores: [55, 55, 65, 60, 55, 60], archive: '', photo: '' },
-        { id: 'yezhuo',     name: '叶卓',   term: 3, role: '第三届代理社长', tags: ['B站开创','社团联盟','摄影志愿'], contribution: '2021年8月至2022年1月担任代理社长。开创树莓社B站账号，2020年9月当选苏州中学社团联盟理事会主席，将"校级赋能"范式升级为常态发展引擎。《识茶记》摄影，凭此通过中国传媒大学校考，获得社团联盟特殊贡献奖。', quote: '', scores: [60, 50, 75, 55, 45, 55], archive: '', photo: '' },
-        { id: 'pengjiayi',  name: '彭嘉仪', term: 3, role: '宣策部部长', tags: ['宣传改革','效益最大化'], contribution: '改革宣传方式，提出"将宣传效益最大化"理念，担任第二届宣策部负责人。', quote: '', scores: [30, 65, 40, 45, 35, 30], archive: '', photo: '' },
-        { id: 'luweiyi',    name: '陆未一', term: 4, role: '第四届副社长', tags: ['公众号创建','看板娘2.0','运营体系'], contribution: '树莓社微信公众号创始人，设计树莓社2021版看板娘形象，开创"苏中树莓社"官方微信公众号，并制定分工明确的运营体系。', quote: '', scores: [40, 60, 45, 70, 55, 45], archive: '', photo: '' },
-        { id: 'guhengting', name: '顾衡庭', term: 4, role: '第四届副社长', tags: ['视频直播','转播业务','《苏迷》'], contribution: '微电影《数据之下》制片和后期，《苏迷》纪录片第一集策划者。完善树莓社B站账号运作机制，推动照片直播发展，开创树莓转播业务。', quote: '', scores: [50, 55, 50, 65, 40, 50], archive: '', photo: '' },
-        { id: 'wangyiyang', name: '汪翊扬', term: 4, role: '第四届社长', tags: ['创纪录招新','网课坚持','优秀社团'], contribution: '克服疫情障碍坚持开展线上活动，纳新录取70人达历史之最，兼任后期部。推动树莓社与苏中EPIC摄影社等7个社团正式签约成立"树莓派"校际联盟，获评苏州市优秀社团。', quote: '', scores: [72, 60, 55, 55, 50, 65], archive: '', photo: '' },
-        { id: 'wangzhexi',  name: '王哲熙', term: 4, role: '编导部部长', tags: ['温度口号','内容创作'], contribution: '提出"用有温度、有力量的作品，影响一群人，温暖一座城"，担任第四届编导部部长。', quote: '用有温度、有力量的作品，影响一群人，温暖一座城。', scores: [35, 75, 30, 40, 80, 35], archive: '', photo: '' },
-        { id: 'liqian',     name: '李谦',   term: 5, role: '第五届社长', tags: ['线下回归','拍摄担当','传媒中心'], contribution: '传媒中心负责人，以"蒙故业，因遗策"为治社纲领，提出"以社员为主体"理念，采取"韬光养晦、厚积薄发"的过渡性战略，将社团发展重心从对外扩张转移回线下凝聚。', quote: '', scores: [50, 50, 50, 45, 85, 55], archive: '', photo: '' },
-        { id: 'zhouyijia',  name: '周熠嘉', term: 6, role: '第六届社长', tags: ['社团联盟','数字化转型','十佳社团'], contribution: '苏州数字媒体学生社团联盟主要创始人，推动树莓派联盟签约成立，开启数字化治理转型。建立社团数据库与文献资料库，开创《树莓日签》日常文化输出，正式接受AIGC创作投稿并组建研究小组。树莓派联盟成立大会邀请11个友社参与。', quote: '', scores: [60, 40, 75, 55, 70, 70], archive: '', photo: '' },
-        { id: 'zhangyujiang',name:'张宇江', term: 6, role: '第六届副社长', tags: ['代行职权','后期部'], contribution: '与王嫣然共同代行社长职权，担任后期部负责人。', quote: '', scores: [40, 35, 45, 40, 45, 50], archive: '', photo: '' },
-        { id: 'wangyanran', name: '王嫣然', term: 6, role: '第六/七届副社长', tags: ['QQ账号','过渡保障','代理社长'], contribution: '开创树莓社QQ账号，大力推动树莓派签约成立大会。曾代行社长职权，为社团过渡期稳定运作提供保障。在树莓派联盟成立仪式上发表《关于保障创作者权益的倡议》。执笔第六届组委会工作报告。', quote: '', scores: [55, 45, 60, 50, 75, 65], archive: '', photo: '' },
-        { id: 'yangziyan',  name: '杨梓言', term: 7, role: '第七届社长', tags: ['全媒体矩阵','组织进化','十佳社团'], contribution: '以最高票当选，推动社团治理与创作模式深层变革，提出"守温度、传火种、向未来"施政纲领与"伟大完成论"理论体系，建成全媒体传播矩阵。运营数据：198人/35+活动/超2000小时活动时长/超2TB素材/累计传播20万人次；公众号933粉、B站1537粉。推动"共享相册""画纸"等创新活动。', quote: '', scores: [80, 65, 35, 85, 90, 85], archive: '', photo: '' },
-        { id: 'luoanqi',    name: '雒安琪', term: 7, role: '第七届传媒中心负责人', tags: ['小红书','《问道山下》','传媒创新'], contribution: '主持第八届社员大会，运营《问道山下》广播节目。发起创建小红书账号，推动校园传媒业务创新与时代化改革。', quote: '', scores: [50, 55, 50, 70, 60, 50], archive: '', photo: '' },
-        { id: 'zhujingxuan',name: '朱璟煊', term: 7, role: '策划与宣传部', tags: ['IP迭代','文创小组'], contribution: '"树莓酱"IP系统性迭代，周边产品深度开发，担任第八届副社长兼树莓酱文创小组负责人。', quote: '', scores: [45, 60, 40, 75, 50, 45], archive: '', photo: '' },
-        { id: 'xumiyang',   name: '徐米扬', term: 7, role: '第七届公关部部长', tags: ['活动策划','章程修订','形象公关'], contribution: '参与多项活动策划，参与章程修订，树莓社形象公关工作的核心参与者，担任公关部部长。', quote: '', scores: [65, 30, 55, 40, 55, 50], archive: '', photo: '' },
-        { id: 'zhangziwei', name: '张子为', term: 8, role: '第八届副社长', tags: ['《寻找》编剧','B站创作'], contribution: '微电影《寻找》编剧/导演，B站创意视频创作者，担任第八届副社长。', quote: '', scores: [35, 70, 45, 80, 45, 40], archive: '', photo: '' },
-        { id: 'chenyuxin',  name: '陈雨馨', term: 8, role: '第八届社长', tags: ['寻找主演','优秀社员'], contribution: '树莓社创立以来第一位女社长，微电影《寻找》主演，第七届社员大会"优秀社员"，第八届社团掌舵人，延续影像薪火。', quote: '', scores: [30, 80, 60, 50, 75, 55], archive: '', photo: '' },
-        { id: 'chentianyi', name: '陈天一', term: 3, role: '第二/三届表播部部长', tags: ['学宪法一等奖','《识茶记》编剧','《苏中曰》'], contribution: '全国学生"学宪法、讲宪法"活动全国总决赛一等奖获得者（全国第五名、江苏队第一名）。微电影《识茶记》编剧，传媒中心节目策划，主持《苏中曰》广播节目。', quote: '用有温度、有力量的作品，影响一群人，温暖一座城。', scores: [40, 65, 55, 45, 70, 50], archive: '', photo: '' },
-        { id: 'tanjiayi',   name: '谭嘉怡', term: 2, role: '第二/三届编导部部长', tags: ['《英雄少年》','疫情募捐'], contribution: '志愿者专题纪录片《英雄少年》拍摄策划案和剧本创作者。疫情期间联合发起大规模募捐活动，筹得大量善款与物资支援前线医疗人员。', quote: '', scores: [35, 55, 60, 50, 75, 45], archive: '', photo: '' },
-        { id: 'lilingjian', name: '李令剑', term: 3, role: '第三届传媒中心负责人', tags: ['春晚摄制','发展规划'], contribution: '发起《2021年苏州中学春节联欢晚会》节目摄制活动并担任总导演，提交社团发展规划提案。', quote: '', scores: [55, 50, 50, 60, 50, 55], archive: '', photo: '' }
-      ];
-
-      const links = [
-        // 传承关系 (inherit)
-        { source: 'mayuzhang', target: 'shensunfeng', type: 'inherit' },
-        { source: 'shensunfeng', target: 'shiyunhan', type: 'inherit' },
-        { source: 'shensunfeng', target: 'liuenqi', type: 'inherit' },
-        { source: 'shiyunhan', target: 'xingxiaohan', type: 'inherit' },
-        { source: 'xingxiaohan', target: 'zhuyi', type: 'inherit' },
-        { source: 'zhuyi', target: 'yezhuo', type: 'inherit' },
-        { source: 'yezhuo', target: 'wangyiyang', type: 'inherit' },
-        { source: 'wangyiyang', target: 'liqian', type: 'inherit' },
-        { source: 'liqian', target: 'zhouyijia', type: 'inherit' },
-        { source: 'zhouyijia', target: 'zhangyujiang', type: 'inherit' },
-        { source: 'zhouyijia', target: 'wangyanran', type: 'inherit' },
-        { source: 'wangyanran', target: 'yangziyan', type: 'inherit' },
-        { source: 'yangziyan', target: 'chenyuxin', type: 'inherit' },
-        // 同届合作关系 (collab)
-        { source: 'mayuzhang', target: 'zhangshihan', type: 'collab' },
-        { source: 'mayuzhang', target: 'shensunfeng', type: 'collab' },
-        { source: 'zhangshihan', target: 'shensunfeng', type: 'collab' },
-        { source: 'shiyunhan', target: 'liuenqi', type: 'collab' },
-        { source: 'shiyunhan', target: 'xingxiaohan', type: 'collab' },
-        { source: 'liuenqi', target: 'tanjiayi', type: 'collab' },
-        { source: 'tanjiayi', target: 'chentianyi', type: 'collab' },
-        { source: 'zhuyi', target: 'yezhuo', type: 'collab' },
-        { source: 'zhuyi', target: 'pengjiayi', type: 'collab' },
-        { source: 'zhuyi', target: 'lilingjian', type: 'collab' },
-        { source: 'yezhuo', target: 'chentianyi', type: 'collab' },
-        { source: 'wangyiyang', target: 'luweiyi', type: 'collab' },
-        { source: 'wangyiyang', target: 'guhengting', type: 'collab' },
-        { source: 'wangyiyang', target: 'wangzhexi', type: 'collab' },
-        { source: 'luweiyi', target: 'guhengting', type: 'collab' },
-        { source: 'liqian', target: 'zhouyijia', type: 'collab' },
-        { source: 'zhouyijia', target: 'wangyanran', type: 'collab' },
-        { source: 'zhouyijia', target: 'zhangyujiang', type: 'collab' },
-        { source: 'yangziyan', target: 'wangyanran', type: 'collab' },
-        { source: 'yangziyan', target: 'zhujingxuan', type: 'collab' },
-        { source: 'yangziyan', target: 'luoanqi', type: 'collab' },
-        { source: 'yangziyan', target: 'xumiyang', type: 'collab' },
-        { source: 'chenyuxin', target: 'zhangziwei', type: 'collab' },
-        { source: 'chenyuxin', target: 'zhujingxuan', type: 'collab' },
-        // 跨届影响关系 (influence)
-        { source: 'shensunfeng', target: 'zhouyijia', type: 'influence' },
-        { source: 'shensunfeng', target: 'yangziyan', type: 'influence' },
-        { source: 'luweiyi', target: 'yangziyan', type: 'influence' },
-        { source: 'guhengting', target: 'luoanqi', type: 'influence' },
-        { source: 'tanjiayi', target: 'wangzhexi', type: 'influence' },
-        { source: 'chentianyi', target: 'wangzhexi', type: 'influence' },
-        { source: 'yezhuo', target: 'guhengting', type: 'influence' },
-        { source: 'lilingjian', target: 'luoanqi', type: 'influence' },
-        { source: 'wangyanran', target: 'zhangziwei', type: 'influence' },
-      ];
-
-      // D3 图表初始化
-      const svgEl = document.getElementById('graph-svg');
-      if (!svgEl) return;
-      const containerRect = document.querySelector('.graph-container').getBoundingClientRect();
-      const width = containerRect.width;
-      const height = window.innerWidth < 640 ? 450 : (window.innerWidth < 1024 ? 550 : 650);
-      svgEl.setAttribute('viewBox', `0 0 ${width} ${height}`);
-
-      const g = d3.select(svgEl).append('g');
-      const zoom = d3.zoom().scaleExtent([0.4, 2.5]).on('zoom', (event) => g.attr('transform', event.transform));
-      d3.select(svgEl).call(zoom);
-
-      // 布局分组
-      const termGroups = {};
-      people.forEach(p => { if (!termGroups[p.term]) termGroups[p.term] = []; termGroups[p.term].push(p); });
-
-      const nodeMap = {};
+    function renderPhotoGrid() {
+      const grid = document.getElementById('photoGrid');
+      grid.innerHTML = '';
       people.forEach(p => {
-        const angle = (p.term - 1) * (2 * Math.PI / 8) - Math.PI / 2;
-        const group = termGroups[p.term];
-        const idx = group.indexOf(p);
-        const offset = (idx - (group.length - 1) / 2) * 36;
-        const rx = width * 0.35;
-        const ry = height * 0.35;
-        nodeMap[p.id] = {
-          ...p,
-          x: width / 2 + Math.cos(angle) * rx + Math.cos(angle + Math.PI/2) * offset,
-          y: height / 2 + Math.sin(angle) * ry + Math.sin(angle + Math.PI/2) * offset,
-          radius: p.role.includes('社长') || p.role.includes('主席') ? 16 : 11
-        };
-      });
-
-      const nodes = Object.values(nodeMap);
-      const simLinks = links.map(l => ({ ...l }));
-
-      const linkElements = g.selectAll('.link').data(simLinks).enter().append('line').attr('class', d => `link-${d.type}`);
-      const nodeGroups = g.selectAll('.node-group').data(nodes).enter().append('g').attr('class', 'node-group')
-        .call(d3.drag().on('start', dragStart).on('drag', dragging).on('end', dragEnd));
-
-      nodeGroups.append('circle').attr('r', d => d.radius + 1).attr('fill', 'none').attr('stroke', 'rgba(0,0,0,0.06)').attr('stroke-width', 1);
-      nodeGroups.append('circle').attr('class', 'node-circle').attr('r', d => d.radius).attr('fill', d => termColors[d.term]).attr('fill-opacity', 0.9).attr('stroke', '#fff').attr('stroke-width', 2);
-      nodeGroups.append('text').attr('class', 'node-label').attr('dy', d => d.radius + 15).text(d => d.name);
-      nodeGroups.append('text').attr('class', 'node-role').attr('dy', d => d.radius + 26).text(d => { const m = d.role.match(/第[一二三四五六七八]+任|届/); return m ? d.role.substring(0, 4) : ''; });
-
-      const termLabelData = Object.entries(termGroups).map(([term]) => {
-        const angle = (parseInt(term) - 1) * (2 * Math.PI / 8) - Math.PI / 2;
-        const dist = Math.min(width, height) * 0.42;
-        return { x: width / 2 + Math.cos(angle) * dist, y: height / 2 + Math.sin(angle) * dist, label: `第${['一','二','三','四','五','六','七','八'][parseInt(term)-1]}届` };
-      });
-      g.selectAll('.term-group-label').data(termLabelData).enter().append('text').attr('class', 'term-group-label').attr('x', d => d.x).attr('y', d => d.y).text(d => d.label);
-
-      function tick() {
-        linkElements.attr('x1', d => nodeMap[d.source].x).attr('y1', d => nodeMap[d.source].y).attr('x2', d => nodeMap[d.target].x).attr('y2', d => nodeMap[d.target].y);
-        nodeGroups.attr('transform', d => `translate(${d.x},${d.y})`);
-      }
-
-      // 性能优化: 冷却机制
-      let alpha = 1;
-      let animFrame;
-      function simulate() {
-        for (let i = 0; i < nodes.length; i++) {
-          for (let j = i + 1; j < nodes.length; j++) {
-            const dx = nodes[j].x - nodes[i].x, dy = nodes[j].y - nodes[i].y, dist = Math.sqrt(dx * dx + dy * dy) || 1, minDist = nodes[i].radius + nodes[j].radius + 44;
-            if (dist < minDist) { const force = (minDist - dist) * 0.015 * alpha, fx = (dx / dist) * force, fy = (dy / dist) * force; nodes[i].x -= fx; nodes[i].y -= fy; nodes[j].x += fx; nodes[j].y += fy; }
-          }
-        }
-        simLinks.forEach(link => {
-          const s = nodeMap[link.source], t = nodeMap[link.target], dx = t.x - s.x, dy = t.y - s.y, dist = Math.sqrt(dx * dx + dy * dy) || 1;
-          const ideal = link.type === 'inherit' ? 140 : 90;
-          const force = (dist - ideal) * 0.002 * alpha;
-          s.x += (dx / dist) * force; s.y += (dy / dist) * force; t.x -= (dx / dist) * force; t.y -= (dy / dist) * force;
-        });
-        nodes.forEach(n => {
-          n.x += (width / 2 - n.x) * 0.0008 * alpha; n.y += (height / 2 - n.y) * 0.0008 * alpha;
-          n.x = Math.max(n.radius + 10, Math.min(width - n.radius - 10, n.x)); n.y = Math.max(n.radius + 10, Math.min(height - n.radius - 10, n.y));
-        });
-        alpha *= 0.99; tick();
-        if (alpha > 0.02) animFrame = requestAnimationFrame(simulate);
-      }
-      simulate();
-
-      function dragStart(event, d) { alpha = Math.max(alpha, 0.3); d3.select(this).raise(); if(!animFrame) simulate(); }
-      function dragging(event, d) { d.x = event.x; d.y = event.y; tick(); }
-      function dragEnd() {}
-
-      let radarChart = null;
-      nodeGroups.on('click', (event, d) => {
-        event.stopPropagation();
-        nodeGroups.classed('selected', false);
-        d3.select(event.currentTarget).classed('selected', true);
-        openDetail(d);
-      });
-      d3.select(svgEl).on('click', () => { nodeGroups.classed('selected', false); closeDetail(); });
-
-      // 打开详情面板
-      function openDetail(p) {
-        const overlay = document.getElementById('detailOverlay');
-        const panel = document.getElementById('detailPanel');
-        const content = document.getElementById('detailPanelContent');
-
-        // 届数标签颜色
-        const termColorsMap = { 1: '#e0556a', 2: '#e0884a', 3: '#d4a853', 4: '#5ac48e', 5: '#5a8ec4', 6: '#9a6ac4', 7: '#d47ac4', 8: '#4ac4b8' };
+        const card = document.createElement('div');
+        card.className = 'gallery-card';
+        card.dataset.term = p.term;
+        const photoUrl = getPhotoUrl(p.name, p.term, p.photo);
         
-        // 渲染名言
-        const quoteHtml = p.quote 
-          ? `<div class="person-quote">${p.quote}<div class="quote-src">—— ${p.name}</div></div>`
-          : '';
-
-        // 渲染档案链接
-        let archiveHtml = p.archive 
-          ? `<div class="detail-section"><div class="detail-section-label">数字档案馆关联</div><div class="archive-links"><a href="#" class="archive-link">📄 ${p.archive}</a></div></div>`
-          : '';
-
-        // 渲染六维光谱雷达图
-        let spectrumHtml = '';
-        if (p.scores && p.scores.length >= 6) {
-          spectrumHtml = `
-            <div class="detail-section">
-              <div class="detail-section-label">能力画像</div>
-              <div id="radar-chart"></div>
-            </div>
-          `;
-        }
-
-        const startYear = 2017 + p.term;
-        const endYear = startYear + 1;
-        
-        content.innerHTML = `
-          <div class="person-card">
-            <div class="person-header-section">
-              <div class="gen-tag" style="background:${termColorsMap[p.term]}">第${['一','二','三','四','五','六','七','八'][p.term-1]}届<br>${startYear}–${endYear}</div>
-              <div class="person-title-group">
-                <h2>${p.name}</h2>
-                <div class="person-role">${p.role}</div>
-              </div>
-            </div>
-            <div class="person-body">
-              <div class="person-tag-section">
-                ${p.tags.map(t => `<span class="person-tag secondary">${t}</span>`).join('')}
-              </div>
-              <div class="detail-section">
-                <div class="detail-section-label">主要贡献</div>
-                <div class="person-contribution">${p.contribution}</div>
-              </div>
-              ${quoteHtml}
-              ${spectrumHtml}
-              ${archiveHtml}
-            </div>
+        card.innerHTML = `
+          <img class="card-img" src="${photoUrl}" alt="${p.name}" loading="lazy">
+          <div class="card-badge" style="border-left: 3px solid ${termColors[p.term]}">${p.term} 届</div>
+          <div class="card-glass-panel">
+            <div class="card-name">${p.name}</div>
+            <div class="card-role">${p.role}</div>
           </div>
         `;
+        card.addEventListener('click', () => openDetail(p, photoUrl));
+        grid.appendChild(card);
+      });
+    }
+    renderPhotoGrid();
 
-        // 显示面板
-        overlay.classList.add('active');
-        panel.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        
-        // 渲染雷达图
-        setTimeout(() => {
-          renderRadar(p);
-        }, 300);
-      }
+    let radarChart = null;
 
-      // 关闭详情面板
-      window.closeDetail = function() {
-        const overlay = document.getElementById('detailOverlay');
-        const panel = document.getElementById('detailPanel');
-        const content = document.getElementById('detailPanelContent');
+    window.openDetail = function(p, photoUrl) {
+      const overlay = document.getElementById('detailOverlay');
+      const panel = document.getElementById('detailPanel');
+      const content = document.getElementById('detailPanelContent');
+      const color = termColors[p.term];
+      
+      let quoteHtml = p.quote ? `<div class="dp-quote">${p.quote}</div>` : '';
+      let archiveHtml = p.archive ? `<div class="dp-section-title" style="border-left-color: ${color}">相关文献</div><a href="#" class="dp-archive">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+        ${p.archive}</a>` : '';
+      let radarHtml = p.scores ? `<div class="dp-section-title" style="border-left-color: ${color}">能力雷达</div><div id="radar-chart"></div>` : '';
 
-        overlay.classList.remove('active');
-        panel.classList.remove('active');
-        document.body.style.overflow = '';
+      content.innerHTML = `
+        <img class="dp-cover" src="${photoUrl}" alt="${p.name}">
+        <div class="dp-content">
+          <h2 class="dp-name">${p.name}</h2>
+          <p class="dp-role" style="color: ${color}">${p.role}</p>
+          <div class="dp-tags">
+            ${p.tags.map(t => `<span class="dp-tag">${t}</span>`).join('')}
+          </div>
+          <div class="dp-section-title" style="border-left-color: ${color}">主要履历</div>
+          <div class="dp-contribution">${p.contribution}</div>
+          ${quoteHtml}
+          ${radarHtml}
+          ${archiveHtml}
+        </div>
+      `;
 
-        // 恢复空状态
-        setTimeout(() => {
-          content.innerHTML = `
-            <div class="detail-empty-state">
-              <div class="mascot-icon">🍓</div>
-              <div>我是树莓酱！<br>点击图中的圆点，让我为您介绍历届领袖吧～</div>
-            </div>
-          `;
-          if (radarChart) { radarChart.dispose(); radarChart = null; }
-        }, 400);
-      };
+      overlay.classList.add('active');
+      panel.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      
+      if (radarHtml) setTimeout(() => renderRadar(p, color), 350);
+    };
 
-      function renderRadar(p) {
-        if (radarChart) radarChart.dispose();
-        const radarEl = document.getElementById('radar-chart');
-        if (!radarEl) return;
-        radarChart = echarts.init(radarEl);
-        const color = termColors[p.term];
-        const normalizedScores = p.scores.slice(0, 6).map(v => v / 20);
-        radarChart.setOption({
-          tooltip: { 
-            trigger: 'item',
-            backgroundColor: 'rgba(255, 255, 255, 0.95)',
-            borderColor: '#e0e0ea',
-            borderWidth: 1,
-            textStyle: { color: '#3a3a4a' }
-          },
-          radar: {
-            indicator: [ 
-              { name: '制度规范化', max: 5 }, 
-              { name: '艺术创作导向', max: 5 }, 
-              { name: '对外拓展', max: 5 }, 
-              { name: '技术革新驱动', max: 5 }, 
-              { name: '人文温度传承', max: 5 },
-              { name: '组织管理能力', max: 5 }
-            ],
-            shape: 'polygon', 
-            radius: '65%',
-            center: ['50%', '50%'],
-            splitNumber: 5,
-            axisName: { 
-              color: '#88889a', 
-              fontSize: 10, 
-              fontFamily: '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans SC',
-              fontWeight: 500
-            },
-            splitArea: {
-              areaStyle: {
-                color: ['rgba(196,163,90,0.05)', 'rgba(196,163,90,0.1)', 'rgba(196,163,90,0.05)', 'rgba(196,163,90,0.1)', 'rgba(196,163,90,0.05)']
-              }
-            },
-            axisLine: { lineStyle: { color: 'rgba(0,0,0,0.1)' } },
-            splitLine: { lineStyle: { color: 'rgba(0,0,0,0.08)' } }
-          },
-          series: [{ 
-            type: 'radar', 
-            data: [{ 
-              value: normalizedScores, 
-              name: p.name, 
-              areaStyle: { color: color + '25' }, 
-              lineStyle: { color: color, width: 2.5 }, 
-              itemStyle: { color: color },
-              symbol: 'circle',
-              symbolSize: 6
-            }] 
-          }]
-        });
-      }
+    window.closeDetail = function() {
+      document.getElementById('detailOverlay').classList.remove('active');
+      document.getElementById('detailPanel').classList.remove('active');
+      document.body.style.overflow = '';
+      setTimeout(() => { if (radarChart) { radarChart.dispose(); radarChart = null; } }, 400);
+    };
 
-      window.filterTerm = function(term) {
-        document.querySelectorAll('.timeline-item').forEach(n => n.classList.remove('active'));
-        document.querySelector('.timeline-all').classList.remove('active');
-        if (term === 0) { document.querySelector('.timeline-all').classList.add('active'); } 
-        else { const el = document.querySelector(`.timeline-item[data-term="${term}"]`); if (el) el.classList.add('active'); }
-        nodeGroups.classed('dimmed', d => term !== 0 && d.term !== term);
-        linkElements.classed('dimmed', d => { if (term === 0) return false; const s = nodeMap[d.source], t = nodeMap[d.target]; return s.term !== term && t.term !== term; });
-        g.selectAll('.term-group-label').attr('opacity', d => term === 0 ? 0.7 : 0.05);
-      };
+    function renderRadar(p, color) {
+      const radarEl = document.getElementById('radar-chart');
+      if (!radarEl || typeof echarts === 'undefined') return;
+      radarChart = echarts.init(radarEl);
+      radarChart.setOption({
+        tooltip: { backgroundColor: '#fff', textStyle: { color: '#333' }, borderColor: '#eee' },
+        radar: {
+          indicator:[ 
+            { name: '规范', max: 5 }, { name: '艺术', max: 5 }, 
+            { name: '拓展', max: 5 }, { name: '技术', max: 5 }, 
+            { name: '人文', max: 5 }, { name: '管理', max: 5 }
+          ],
+          shape: 'circle', radius: '60%', center:['50%', '50%'], splitNumber: 4,
+          axisName: { color: '#666', fontSize: 12 },
+          splitArea: { areaStyle: { color: ['transparent'] } },
+          axisLine: { lineStyle: { color: '#eee' } },
+          splitLine: { lineStyle: { color: '#eee' } }
+        },
+        series:[{ 
+          type: 'radar', 
+          data:[{ 
+            value: p.scores.map(v => v/20), name: p.name, 
+            areaStyle: { color: color + '20' }, lineStyle: { color: color, width: 2 }, 
+            itemStyle: { color: color }, symbol: 'circle', symbolSize: 6
+          }] 
+        }]
+      });
+    }
 
-      window.addEventListener('resize', () => { if (radarChart) radarChart.resize(); });
-
-      // ESC键关闭面板
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-          closeDetail();
-          nodeGroups.classed('selected', false);
+    window.filterTerm = function(term) {
+      document.querySelectorAll('.swell-pill').forEach(btn => {
+        btn.classList.toggle('active', (term === 0 && !btn.dataset.term) || parseInt(btn.dataset.term) === term);
+      });
+      document.querySelectorAll('.gallery-card').forEach(card => {
+        if (term === 0 || parseInt(card.dataset.term) === term) {
+          card.classList.remove('hide');
+          card.style.animation = 'none'; card.offsetHeight; 
+          card.style.animation = 'swellFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+        } else {
+          card.classList.add('hide');
         }
       });
-    });
-  </script>
-</div>
+    };
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+    window.addEventListener('resize', () => { if (radarChart) radarChart.resize(); });
+  });
+</script>
