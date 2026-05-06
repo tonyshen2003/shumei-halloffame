@@ -272,17 +272,19 @@
     };
     const termNames =['一','二','三','四','五','六','七','八'];
 
-    // 生成默认头像照片 URL：使用 DiceBear API，首字母样式，字体大小 40px
+    // 生成默认头像照片 URL：使用 DiceBear API，姓氏样式
     const getPhotoUrl = (name, term, customUrl) => {
       if (customUrl) return customUrl;
       const colorHex = termColors[term].replace('#', '');
-      return `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}&backgroundColor=${colorHex}&textColor=ffffff&fontWeight=normal&fontSize=40`;
+      // 取姓氏（前1-2个汉字），加粗，居中显示
+      const surname = name.length <= 2 ? name : name.substring(0, 2);
+      return `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(surname)}&backgroundColor=${colorHex}&textColor=ffffff&fontWeight=bold&fontSize=70`;
     };
 
     const people =[
       // 第一届
       { id: 'mayuzhang',  name: '马雨璋', term: 1, role: '联合创始人·社长', tags:['创社核心','传媒中心','《苏迷》'], contribution: '确立树莓社以影视创作为核心的社团定位，创立传媒中心。领导制作纪录片《苏迷》，带领社员参加48小时电影马拉松比赛。', quote: '当你的声音流淌，世界屏息静听；当你的镜头开启，天地重赋色彩。', scores:[5, 85, 40, 55, 30, 45], archive: '《数媒社创社策划案》', photo: 'https://szzxshumei.com/wp-content/uploads/2026/04/00001029-248e-7e3a-4b97-e2988c633a1e.jpeg' },
-      { id: 'shensunfeng',name: '沈孙丰', term: 1, role: '联合创始人·社长·组委会主席', tags:['命名树莓','体制改革','树莓派'], contribution: '提出用"树莓"代替"数字媒体"，主导社团管理体制民主改革，起草《社团章程》。联合发起树莓派援助武汉抗疫募捐活动。', quote: '我们用行动回应了那些争议和误解，找到独属于我们的活动。', scores:[68, 45, 90, 50, 60, 75], archive: '《苏州中学树莓社章程》', photo: 'https://szzxshumei.com/wp-content/uploads/2026/04/00001029-24ff-7776-4a9a-f3a456a73fa3.jpeg' },
+      { id: 'shensunfeng',name: '沈孙丰', term: 1, role: '联合创始人·社长·组委会主席', tags:['民主树莓','体制改革','文艺宣传'], contribution: '提出用"树莓"代替"数字媒体"，主导社团管理体制民主改革，起草《社团章程》。联合发起树莓派援助武汉抗疫募捐活动。', quote: '我们用行动回应了那些争议和误解，找到独属于我们的活动。', scores:[68, 45, 90, 50, 60, 75], archive: '《苏州中学树莓社章程》', photo: 'https://szzxshumei.com/wp-content/uploads/2026/04/00001029-24ff-7776-4a9a-f3a456a73fa3.jpeg' },
       { id: 'zhangshihan',name: '张诗菡', term: 1, role: '联合创始人·副社长', tags:['Logo设计','视觉形象','传媒策划'], contribution: '设计树莓社第一版Logo和传媒中心台标，奠定社团视觉形象。担任原创纪录片《苏迷》总撰稿。', quote: '第一次组织全然陌生的社员参加大型活动，过程真的很美妙。', scores:[20, 70, 30, 45, 50, 40], archive: '', photo: '' },
 
       
@@ -311,7 +313,7 @@
       { id: 'zhouxinyan', name: '周昕岩', term: 4, role: '摄影师 / 核心社员', tags: ['爬楼摄影','现场快剪'], contribution: '担任重大赛事的高质量拍摄与快剪工作。曾受社团专访分享“爬楼摄影”故事，并使用重型装备进行艺术创作。', quote: '', scores:[40, 85, 45, 75, 55, 45], archive: '《用高空大片定格城市之美》', photo: '' },
 
       // 第五届
-      { id: 'liqian',     name: '李谦',   term: 5, role: '第五届社长', tags:['线下回归','拍摄担当'], contribution: '以“蒙故业，因遗策”为治社纲领，采取过渡性战略，将受疫情影响的社团发展重心转移回线下，在各类大型活动中承担拍摄重任。', quote: '', scores:[50, 50, 50, 45, 85, 55], archive: '', photo: '' },
+      { id: 'liqian',     name: '李谦',   term: 5, role: '第五届社长', tags:['线下回归','拍摄担当'], contribution: '以"蒙故业，因遗策"为治社纲领，采取过渡性战略，将受疫情影响的社团发展重心转移回线下，在各类大型活动中承担拍摄重任。', quote: '', scores:[50, 50, 50, 45, 85, 55], archive: '', photo: 'https://szzxshumei.com/wp-content/uploads/2026/05/0000102b-eaad-79c7-4453-38e9f1e6cbbd.jpg' },
 
       // 第六届
       { id: 'zhouyijia',  name: '周熠嘉', term: 6, role: '第六届社长', tags:['数字化转型','树莓派联盟'], contribution: '树莓派社团联盟主要创始人。推动社团治理数字化转型，提出“回归社团本质、重视兴趣导向”。创立《树莓日签》，推进AIGC研究。', quote: '现阶段的活动理念与社员实际期望的冲突，需要通过回归社团本质来解决。', scores:[60, 40, 75, 55, 70, 70], archive: '', photo: 'https://szzxshumei.com/wp-content/uploads/2025/01/00000fcb-9e95-768b-4129-0fccd4d07bb0-scaled.jpg' },
@@ -355,12 +357,21 @@
         card.className = 'flat-card';
         card.dataset.term = p.term;
         const photoUrl = getPhotoUrl(p.name, p.term, p.photo);
+        const bgColor = termColors[p.term];
+        const fontSize = p.name.length <= 2 ? 18 : 14;
         
         // 彻底图文分离的扁平排版
+        let imgContent = p.photo 
+          ? `<img class="card-img" src="${photoUrl}" alt="${p.name}" loading="lazy">`
+          : `<svg class="card-img" viewBox="0 0 100 56.25" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+              <rect width="100" height="56.25" fill="${bgColor}"/>
+              <text x="50" y="36" text-anchor="middle" fill="white" font-size="${fontSize}" font-weight="bold" font-family="system-ui, sans-serif">${p.name}</text>
+            </svg>`;
+        
         card.innerHTML = `
           <div class="card-img-box">
-            <div class="card-badge" style="background: ${termColors[p.term]}">${p.term} 届</div>
-            <img class="card-img" src="${photoUrl}" alt="${p.name}" loading="lazy">
+            <div class="card-badge" style="background: ${bgColor}">${p.term} 届</div>
+            ${imgContent}
           </div>
           <div class="card-info">
             <div class="card-name">${p.name}</div>
@@ -385,9 +396,18 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
         ${p.archive}</a>` : '';
       let radarHtml = p.scores ? `<div class="dp-section-title">核心素质雷达</div><div id="radar-chart"></div>` : '';
+      const bgColor = termColors[p.term];
+      const fontSize = p.name.length <= 2 ? 22 : 18;
+      
+      let coverContent = p.photo 
+        ? `<img class="dp-cover" src="${photoUrl}" alt="${p.name}">`
+        : `<svg class="dp-cover" viewBox="0 0 100 69.23" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="69.23" fill="${bgColor}"/>
+            <text x="50" y="42" text-anchor="middle" fill="white" font-size="${fontSize}" font-weight="bold" font-family="system-ui, sans-serif">${p.name}</text>
+          </svg>`;
 
       content.innerHTML = `
-        <img class="dp-cover" src="${photoUrl}" alt="${p.name}">
+        ${coverContent}
         <div class="dp-content">
           <h2 class="dp-name">${p.name}</h2>
           <p class="dp-role">${p.role}</p>
