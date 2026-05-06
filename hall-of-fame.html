@@ -12,18 +12,22 @@
       <!-- 数据统计面板 -->
       <div class="stats-row">
         <div class="stat-card">
+          <div class="stat-icon">🏛️</div>
           <div class="stat-number">8</div>
           <div class="stat-label">届组委会</div>
         </div>
         <div class="stat-card">
+          <div class="stat-icon">👥</div>
           <div class="stat-number">22</div>
           <div class="stat-label">核心成员</div>
         </div>
         <div class="stat-card">
+          <div class="stat-icon">🌱</div>
           <div class="stat-number">2018</div>
           <div class="stat-label">创社至今</div>
         </div>
         <div class="stat-card">
+          <div class="stat-icon">⭐</div>
           <div class="stat-number">12</div>
           <div class="stat-label">历任社长</div>
         </div>
@@ -162,6 +166,18 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       background: var(--hof-bg);
+      position: relative;
+    }
+    #shs-hof-app::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 200px;
+      background: linear-gradient(180deg, rgba(196,163,90,0.04) 0%, transparent 100%);
+      pointer-events: none;
+      border-radius: var(--hof-radius) var(--hof-radius) 0 0;
     }
 
     #shs-hof-app * { box-sizing: border-box; }
@@ -234,11 +250,22 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse at 50% 30%, rgba(196, 163, 90, 0.12) 0%, transparent 50%),
-                  radial-gradient(ellipse at 20% 80%, rgba(90, 142, 196, 0.08) 0%, transparent 40%),
-                  radial-gradient(ellipse at 80% 70%, rgba(154, 106, 196, 0.06) 0%, transparent 40%);
+      background: radial-gradient(ellipse at 50% 30%, rgba(196, 163, 90, 0.08) 0%, transparent 50%),
+                  radial-gradient(ellipse at 20% 80%, rgba(90, 142, 196, 0.05) 0%, transparent 40%),
+                  radial-gradient(ellipse at 80% 70%, rgba(154, 106, 196, 0.04) 0%, transparent 40%);
       pointer-events: none;
       z-index: 0;
+    }
+    #shs-hof-app .graph-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--hof-accent), var(--hof-accent2), var(--hof-blue));
+      opacity: 0.6;
+      z-index: 2;
     }
     #shs-hof-app #graph-svg {
       width: 100%;
@@ -253,7 +280,7 @@
 
     /* SVG 图表样式 */
     #shs-hof-app .link-inherit { stroke: rgba(196, 163, 90, 0.35); stroke-width: 2; fill: none; marker-end: url(#arrow-inherit); }
-    #shs-hof-app .link-collab { stroke: rgba(255, 255, 255, 0.08); stroke-width: 1.5; stroke-dasharray: 4 4; fill: none; }
+    #shs-hof-app .link-collab { stroke: rgba(0, 0, 0, 0.12); stroke-width: 1.5; stroke-dasharray: 4 4; fill: none; }
     #shs-hof-app .link-influence { stroke: rgba(196, 163, 90, 0.2); stroke-width: 1.5; stroke-dasharray: 3 6; fill: none; }
     #shs-hof-app .node-group { cursor: pointer; }
     #shs-hof-app .node-circle { transition: filter 0.3s, stroke-width 0.3s, r 0.2s; }
@@ -280,10 +307,26 @@
       padding: 24px;
       margin-bottom: 20px;
       transition: box-shadow 0.3s, border-color 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    #shs-hof-app .widget::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--hof-accent), var(--hof-accent2));
+      opacity: 0.5;
+      transition: opacity 0.3s;
+    }
+    #shs-hof-app .widget:hover::before {
+      opacity: 1;
     }
     #shs-hof-app .widget:hover {
       border-color: rgba(196, 163, 90, 0.3);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     }
     #shs-hof-app .widget-title {
       font-size: 13px;
@@ -340,14 +383,27 @@
     #shs-hof-app .stat-card::before {
       content: '';
       position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(196, 163, 90, 0.03) 0%, transparent 50%);
-      pointer-events: none;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--hof-accent), var(--hof-accent2));
+      border-radius: var(--hof-radius) var(--hof-radius) 0 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    #shs-hof-app .stat-card:hover::before {
+      opacity: 1;
     }
     #shs-hof-app .stat-card:hover { 
       transform: translateY(-4px); 
       box-shadow: var(--hof-shadow-xl); 
       border-color: rgba(196, 163, 90, 0.35);
+    }
+    #shs-hof-app .stat-icon {
+      font-size: 22px;
+      margin-bottom: 8px;
+      line-height: 1;
     }
     #shs-hof-app .stat-number { 
       font-size: 32px; font-weight: 700; 
@@ -369,18 +425,34 @@
       box-shadow: var(--hof-shadow-md);
       padding: 22px 24px;
       transition: box-shadow 0.3s, border-color 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    #shs-hof-app .legend-widget::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--hof-accent), var(--hof-accent2));
+      opacity: 0.3;
+      transition: opacity 0.3s;
+    }
+    #shs-hof-app .legend-widget:hover::before {
+      opacity: 0.8;
     }
     #shs-hof-app .legend-widget:hover {
       border-color: rgba(196, 163, 90, 0.2);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
     }
     #shs-hof-app .legend-list { display: flex; flex-direction: row; flex-wrap: wrap; gap: 16px 24px; }
     #shs-hof-app .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--hof-text-secondary); }
-    #shs-hof-app .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.2); }
+    #shs-hof-app .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(0,0,0,0.1); }
     #shs-hof-app .legend-divider { width: 1px; height: 20px; background: var(--hof-border); }
     #shs-hof-app .legend-line { width: 20px; height: 0; flex-shrink: 0; }
     #shs-hof-app .legend-line.solid { border-top: 2px solid rgba(196,163,90,0.6); }
-    #shs-hof-app .legend-line.dashed { border-top: 1.5px dashed rgba(0,0,0,0.2); }
+    #shs-hof-app .legend-line.dashed { border-top: 1.5px dashed rgba(0,0,0,0.25); }
     #shs-hof-app .legend-line.gold { border-top: 1.5px dashed rgba(196,163,90,0.5); }
 
     /* 黯淡状态 */
@@ -438,8 +510,8 @@
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--hof-border);
       border: none;
+      border-bottom: 1px solid var(--hof-border);
       cursor: pointer;
       z-index: 1;
     }
@@ -480,16 +552,27 @@
       transition: box-shadow 0.3s, transform 0.2s;
     }
     #shs-hof-app .person-card:hover {
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
     }
     
     #shs-hof-app .person-header-section {
-      padding: 24px 28px;
+      padding: 28px 28px 24px;
       display: flex;
       align-items: flex-start;
       gap: 16px;
       border-bottom: 1px solid var(--hof-border);
-      background: linear-gradient(135deg, rgba(196,163,90,0.03) 0%, transparent 100%);
+      background: linear-gradient(135deg, rgba(196,163,90,0.06) 0%, rgba(90,142,196,0.03) 50%, transparent 100%);
+      position: relative;
+    }
+    #shs-hof-app .person-header-section::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 28px;
+      right: 28px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--hof-accent), transparent);
+      opacity: 0.3;
     }
     
     #shs-hof-app .gen-tag {
@@ -545,10 +628,19 @@
       color: var(--hof-accent);
       font-weight: 600;
       letter-spacing: 0.5px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    #shs-hof-app .person-tag:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(196, 163, 90, 0.2);
     }
     #shs-hof-app .person-tag.secondary {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(0, 0, 0, 0.04);
       color: var(--hof-text-secondary);
+    }
+    #shs-hof-app .person-tag.secondary:hover {
+      background: rgba(0, 0, 0, 0.07);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     }
 
     #shs-hof-app .detail-section {
@@ -621,6 +713,39 @@
     #shs-hof-app .archive-link:hover {
       background: var(--hof-accent-soft);
       transform: translateX(4px);
+    }
+
+    /* ================= 入场动画 ================= */
+    @keyframes hofFadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes hofFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes hofScaleIn {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    #shs-hof-app .stat-card {
+      animation: hofFadeUp 0.6s ease both;
+    }
+    #shs-hof-app .stat-card:nth-child(1) { animation-delay: 0.05s; }
+    #shs-hof-app .stat-card:nth-child(2) { animation-delay: 0.12s; }
+    #shs-hof-app .stat-card:nth-child(3) { animation-delay: 0.19s; }
+    #shs-hof-app .stat-card:nth-child(4) { animation-delay: 0.26s; }
+    #shs-hof-app .graph-container {
+      animation: hofScaleIn 0.7s ease 0.15s both;
+    }
+    #shs-hof-app .sidebar .widget {
+      animation: hofFadeUp 0.6s ease 0.3s both;
+    }
+    #shs-hof-app .legend-widget {
+      animation: hofFadeUp 0.6s ease 0.4s both;
+    }
+    #shs-hof-app .detail-panel-content .person-card {
+      animation: hofFadeUp 0.35s ease both;
     }
 
     /* ================= 移动端响应式优化 ================= */
