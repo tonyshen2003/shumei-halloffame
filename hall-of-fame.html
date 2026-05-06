@@ -443,6 +443,45 @@
       { id: 'chenyuxin',  name: '陈雨馨', term: 8, role: '第八任社长', tags:['《寻找》主演','第八代核心'], contribution: '原创微电影《寻找》主演。面对"技术过剩而产出不足"的问题提出尖锐反思，推动社团回归影像记录本质。', quote: '为什么我们树莓的技术已经足够成熟，产出却没能跟上呢？', grades:['C','B','C','C','C','B'], archive: '', photo: '' }
     ];
 
+    window.filterTerm = function(term) {
+      // 更新 URL hash
+      if (term === 0) {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      } else {
+        history.replaceState(null, '', window.location.pathname + window.location.search + `#term${term}`);
+      }
+      
+      document.querySelectorAll('.flat-tab').forEach(btn => {
+        btn.classList.toggle('active', (term === 0 && !btn.dataset.term) || parseInt(btn.dataset.term) === term);
+      });
+      document.querySelectorAll('.flat-card').forEach(card => {
+        if (term === 0 || parseInt(card.dataset.term) === term) {
+          card.classList.remove('hide');
+          card.style.animation = 'none'; card.offsetHeight; 
+          card.style.animation = 'flatFadeIn 0.3s ease forwards';
+        } else {
+          card.classList.add('hide');
+        }
+      });
+    };
+    
+    // 从 hash 读取并应用筛选
+    function applyHashFilter() {
+      const hash = window.location.hash;
+      if (hash.startsWith('#term')) {
+        const term = parseInt(hash.replace('#term', ''));
+        if (term >= 1 && term <= 8) {
+          filterTerm(term);
+          return;
+        }
+      }
+      // 默认显示全部
+      filterTerm(0);
+    }
+    
+    // 监听 hash 变化
+    window.addEventListener('hashchange', applyHashFilter);
+
     const filterTrack = document.getElementById('termFilters');
     [1,2,3,4,5,6,7,8].forEach(t => {
       const btn = document.createElement('button');
@@ -487,6 +526,9 @@
       });
     }
     renderPhotoGrid();
+
+    // 页面加载时应用 hash 筛选
+    applyHashFilter();
 
     let radarChart = null;
 
@@ -593,21 +635,6 @@
         }]
       });
     }
-
-    window.filterTerm = function(term) {
-      document.querySelectorAll('.flat-tab').forEach(btn => {
-        btn.classList.toggle('active', (term === 0 && !btn.dataset.term) || parseInt(btn.dataset.term) === term);
-      });
-      document.querySelectorAll('.flat-card').forEach(card => {
-        if (term === 0 || parseInt(card.dataset.term) === term) {
-          card.classList.remove('hide');
-          card.style.animation = 'none'; card.offsetHeight; 
-          card.style.animation = 'flatFadeIn 0.3s ease forwards';
-        } else {
-          card.classList.add('hide');
-        }
-      });
-    };
 
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
     window.addEventListener('resize', () => { if (radarChart) radarChart.resize(); });
