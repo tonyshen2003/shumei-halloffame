@@ -113,7 +113,7 @@
   
   /* ================= 扁平化杂志排版网格 ================= */
   .shs-hof-namespace .flat-gallery-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 32px 24px;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 32px 24px;
   }
   
   .shs-hof-namespace .flat-card {
@@ -122,7 +122,8 @@
   .shs-hof-namespace .flat-card.hide { display: none; }
   
   .shs-hof-namespace .card-img-box {
-    position: relative; aspect-ratio: 3 / 4; background: var(--swell-bg-gray);
+    /* 网格卡片照片容器：16:9 宽高比 */
+    position: relative; aspect-ratio: 16 / 9; background: var(--swell-bg-gray);
     margin-bottom: 16px; overflow: hidden;
   }
   
@@ -179,6 +180,7 @@
   .shs-hof-namespace .flat-close-btn:hover { color: var(--swell-text-main); transform: rotate(90deg); }
 
   .shs-hof-namespace .dp-cover { 
+    /* 详情页顶部照片：宽度100%，高度360px */
     width: 100%; height: 360px; object-fit: cover; 
     border-bottom: 1px solid var(--swell-border-light); 
   }
@@ -243,7 +245,7 @@
     .shs-hof-namespace .flat-stats-row { gap: 24px; padding: 16px 0; }
     .shs-hof-namespace .stat-num { font-size: 28px; }
     .shs-hof-namespace .flat-gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 24px 16px; }
-    .shs-hof-namespace .dp-cover { height: 260px; }
+    .shs-hof-namespace .dp-cover { height: 260px; /* 移动端详情页照片高度调整为260px */ }
     .shs-hof-namespace .dp-content { padding: 32px 24px; }
     .shs-hof-namespace .dp-name { font-size: 26px; }
   }
@@ -270,7 +272,7 @@
     };
     const termNames =['一','二','三','四','五','六','七','八'];
 
-    // 高端几何首字母 API
+    // 生成默认头像照片 URL：使用 DiceBear API，首字母样式，字体大小 40px
     const getPhotoUrl = (name, term, customUrl) => {
       if (customUrl) return customUrl;
       const colorHex = termColors[term].replace('#', '');
