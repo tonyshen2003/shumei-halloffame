@@ -309,39 +309,79 @@
     // 【手机端滑动返回】: 向右滑动关闭详情弹窗
     const drawer = document.getElementById('detailPanel');
     let touchStartX = 0;
+    let touchStartY = 0;
     let touchMoveX = 0;
+    let touchMoveY = 0;
     let isSwipeActive = false;
+    let isVerticalScroll = false;
+    let isHorizontalSwipe = false;
 
     if (drawer) {
       drawer.addEventListener('touchstart', (e) => {
         // 检查边界条件：抽屉未激活或不是从左侧边缘开始滑动则忽略
         if (!drawer.classList.contains('active')) return;
         touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
         if (touchStartX > 50) return; // 只有从左侧边缘 50px 内开始滑动才响应
         touchMoveX = touchStartX;
+        touchMoveY = touchStartY;
         isSwipeActive = true;
+        isVerticalScroll = false;
+        isHorizontalSwipe = false;
       }, { passive: true });
 
       drawer.addEventListener('touchmove', (e) => {
-        if (!isSwipeActive) return;
+        if (!isSwipeActive || isVerticalScroll) return;
+        
         touchMoveX = e.touches[0].clientX;
-        const diff = touchMoveX - touchStartX;
-        if (diff > 0) {
-          drawer.style.transform = `translateX(${Math.min(diff, 520)}px)`;
+        touchMoveY = e.touches[0].clientY;
+        
+        const diffX = touchMoveX - touchStartX;
+        const diffY = touchMoveY - touchStartY;
+        
+        // 初始判断：移动一定距离后确定滑动方向
+        if (!isHorizontalSwipe && !isVerticalScroll && (Math.abs(diffX) > 10 || Math.abs(diffY) > 10)) {
+          // 判断滑动方向：如果 Y 轴移动大于等于 X 轴，判定为垂直滚动
+          if (Math.abs(diffY) >= Math.abs(diffX)) {
+            isVerticalScroll = true;
+            return;
+          } else {
+            isHorizontalSwipe = true;
+          }
         }
-      }, { passive: true });
+        
+        // 如果已确定是垂直滚动，直接返回
+        if (isVerticalScroll) return;
+        
+        // 只有确定是水平滑动时才阻止页面滚动并移动抽屉
+        if (isHorizontalSwipe && diffX > 0) {
+          e.preventDefault();
+          drawer.style.transform = `translateX(${Math.min(diffX, 520)}px)`;
+        }
+      }, { passive: false });
 
       drawer.addEventListener('touchend', () => {
         if (!isSwipeActive) return;
         isSwipeActive = false;
+        
+        // 如果是垂直滚动，不做任何操作
+        if (isVerticalScroll) {
+          isVerticalScroll = false;
+          isHorizontalSwipe = false;
+          return;
+        }
+        
         const diff = touchMoveX - touchStartX;
-        if (diff > 100) {
-          // 滑动超过 100px 则关闭
+        if (isHorizontalSwipe && diff > 100) {
+          // 滑动超过 100px 且是水平滑动则关闭
           closeDetail();
         } else {
           // 否则回弹到原位
           drawer.style.transform = '';
         }
+        
+        isVerticalScroll = false;
+        isHorizontalSwipe = false;
       });
     }
 
