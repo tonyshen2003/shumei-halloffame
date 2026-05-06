@@ -299,6 +299,45 @@
       document.body.appendChild(modalsContainer);
     }
 
+    // 【手机端滑动返回】: 向右滑动关闭详情弹窗
+    const drawer = document.getElementById('detailPanel');
+    let touchStartX = 0;
+    let touchMoveX = 0;
+    let isSwipeActive = false;
+
+    if (drawer) {
+      drawer.addEventListener('touchstart', (e) => {
+        // 检查边界条件：抽屉未激活或不是从左侧边缘开始滑动则忽略
+        if (!drawer.classList.contains('active')) return;
+        touchStartX = e.touches[0].clientX;
+        if (touchStartX > 50) return; // 只有从左侧边缘 50px 内开始滑动才响应
+        touchMoveX = touchStartX;
+        isSwipeActive = true;
+      }, { passive: true });
+
+      drawer.addEventListener('touchmove', (e) => {
+        if (!isSwipeActive) return;
+        touchMoveX = e.touches[0].clientX;
+        const diff = touchMoveX - touchStartX;
+        if (diff > 0) {
+          drawer.style.transform = `translateX(${Math.min(diff, 520)}px)`;
+        }
+      }, { passive: true });
+
+      drawer.addEventListener('touchend', () => {
+        if (!isSwipeActive) return;
+        isSwipeActive = false;
+        const diff = touchMoveX - touchStartX;
+        if (diff > 100) {
+          // 滑动超过 100px 则关闭
+          closeDetail();
+        } else {
+          // 否则回弹到原位
+          drawer.style.transform = '';
+        }
+      });
+    }
+
     // 采用更沉稳高级的色系
     const termColors = {
       1: '#942b38', 2: '#ab5e30', 3: '#9c8247', 4: '#42785d',
@@ -322,7 +361,7 @@
       { id: 'zhangshihan', name: '张诗菡', term: 1, role: '联合创始人·副社长', tags:['视觉设计','树莓酱'], contribution: '创造了树莓社看板娘形象并主导早期视觉体系，为社团奠定了深厚的人文与品牌底蕴。', quote: '', scores:[50, 65, 55, 70, 50, 60], archive: '', photo: 'https://szzxshumei.com/wp-content/uploads/2026/05/0000102b-ed86-7585-4edd-04fdd1b09f0c-scaled.jpg' },
 
       // 第二届
-      { id: 'shiyunhan',  name: '石允涵', term: 2, role: '第二届社长', tags:['双社长制','照片直播'], contribution: '引入照片直播工作模式，开创摄影志愿服务品牌，大幅提高宣传时效性。荣获苏州市优秀社长称号。', quote: '面对挑战，我能行；遇到困难，我不怕；突发状况，我担当。', scores:[45, 25, 60, 70, 75, 50], archive: '《树莓社摄影志愿服务团队开展情况报告》', photo: 'https://szzxshumei.com/wp-content/uploads/2020/12/00000fce-cf5a-765c-4112-63519500030a.jpg' },
+      { id: 'shiyunhan',  name: '石允涵', term: 2, role: '第二届社长·传媒中心负责人', tags:['双社长制','照片直播'], contribution: '引入照片直播工作模式，开创摄影志愿服务品牌，大幅提高宣传时效性。荣获苏州市优秀社长称号。', quote: '面对挑战，我能行；遇到困难，我不怕；突发状况，我担当。', scores:[45, 25, 60, 70, 75, 50], archive: '《树莓社摄影志愿服务团队开展情况报告》', photo: 'https://szzxshumei.com/wp-content/uploads/2020/12/00000fce-cf5a-765c-4112-63519500030a.jpg' },
       { id: 'liuenqi',    name: '刘恩岐', term: 2, role: '第二届社长', tags:['经费保障','后期部'], contribution: '树莓社历史双社长制代表。设计第二代工作证，为社团运营提供重要经费保障，起草《2019年社长工作报告》。', quote: '', scores:[55, 35, 50, 45, 55, 50], archive: '', photo: 'https://szzxshumei.com/wp-content/uploads/2026/05/0000102b-eb25-77f3-4ea7-dac5ef9ec980.jpeg' },
       { id: 'xingxiaohan',name: '邢笑菡', term: 2, role: '第二届代理社长 / 社联副主席', tags:['代理社长','部门优化'], contribution: '担任代理社长期间主持社团换届，提出部门结构优化方案。担任苏州中学社团联盟理事会副主席，促进跨社团交流。', quote: '', scores:[45, 20, 55, 35, 45, 40], archive: '', photo: '' },
       { id: 'yezhuo',     name: '叶卓',   term: 2, role: '代理社长 / 苏州中学社团联盟主席', tags:['B站开创','社联主席'], contribution: '开创树莓社B站官方账号，探索社团传播新矩阵。当选社团联盟理事会主席，将"校级赋能"升级为常态发展引擎。', quote: '', scores:[60, 50, 75, 55, 45, 55], archive: '', photo: '' },
@@ -346,10 +385,10 @@
       // 第七届
       { id: 'yangziyan',  name: '杨梓言', term: 7, role: '第七届社长', tags:['全媒体矩阵','伟大完成论'], contribution: '建成全媒体传播矩阵（累计传播超20万次）。面对AI冲击提出"伟大完成论"，强调"从单纯技术传授升华为创意火种的传递"。', quote: '让那些转瞬即逝的声音可以被听见，让每一个创意都拥有落地生长的土壤。', scores:[80, 65, 35, 85, 90, 85], archive: '《守温度、传火种、向未来》', photo: 'https://szzxshumei.com/wp-content/uploads/2026/01/00001014-8c23-77f3-4242-eee89b245233-scaled.jpg' },
       { id: 'luoanqi',  name: '雒安琪', term: 7, role: '传媒中心负责人', tags:['问到山下广播','抖音平台'], contribution: '运营《问道山下》广播节目。发起创建小红书账号，创立抖音账号，推动校园传媒业务创新与时代化改革。', quote: '无限进步，懂我们意思吧（划掉）', scores:[80, 65, 35, 85, 90, 85], archive: '', photo: 'https://szzxshumei.com/wp-content/uploads/2026/05/0000102b-eb69-77db-436a-d28b098eba1e.jpg' },
+      { id: 'zhujingxuan', name: '朱璟煊', term: 7, role: '宣策部部长 / 第八届副社长', tags:['树莓酱IP','品牌运营'], contribution: '主导"树莓酱"形象系统性迭代与Q版化开发，通过深耕周边文创，将社团文化成功转化为具象的视觉资产与文化符号。', quote: '', scores:[45, 75, 50, 40, 85, 60], archive: '', photo: 'https://szzxshumei.com/wp-content/uploads/2025/01/image-scaled.jpg' },
 
       // 第八届
-      { id: 'chenyuxin',  name: '陈雨馨', term: 8, role: '第八届社长', tags:['《寻找》主演','第八代核心'], contribution: '原创微电影《寻找》主演。面对"技术过剩而产出不足"的问题提出尖锐反思，推动社团回归影像记录本质。', quote: '为什么我们树莓的技术已经足够成熟，产出却没能跟上呢？', scores:[45, 80, 50, 50, 70, 75], archive: '', photo: '' },
-      { id: 'zhujingxuan', name: '朱璟煊', term: 8, role: '第八届副社长', tags:['树莓酱IP','品牌运营'], contribution: '主导"树莓酱"形象系统性迭代与Q版化开发，通过深耕周边文创，将社团文化成功转化为具象的视觉资产与文化符号。', quote: '', scores:[45, 75, 50, 40, 85, 60], archive: '', photo: 'https://szzxshumei.com/wp-content/uploads/2025/01/image-scaled.jpg' }
+      { id: 'chenyuxin',  name: '陈雨馨', term: 8, role: '第八届社长', tags:['《寻找》主演','第八代核心'], contribution: '原创微电影《寻找》主演。面对"技术过剩而产出不足"的问题提出尖锐反思，推动社团回归影像记录本质。', quote: '为什么我们树莓的技术已经足够成熟，产出却没能跟上呢？', scores:[45, 80, 50, 50, 70, 75], archive: '', photo: '' }
     ];
 
     const filterTrack = document.getElementById('termFilters');
@@ -443,8 +482,11 @@
     };
 
     window.closeDetail = function() {
-      document.getElementById('detailOverlay').classList.remove('active');
-      document.getElementById('detailPanel').classList.remove('active');
+      const panel = document.getElementById('detailPanel');
+      const overlay = document.getElementById('detailOverlay');
+      panel.style.transform = ''; // 重置滑动造成的样式
+      overlay.classList.remove('active');
+      panel.classList.remove('active');
       document.body.style.overflow = '';
       setTimeout(() => { if (radarChart) { radarChart.dispose(); radarChart = null; } }, 400);
     };
