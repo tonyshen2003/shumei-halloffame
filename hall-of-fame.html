@@ -584,52 +584,85 @@
       setTimeout(() => { if (radarChart) { radarChart.dispose(); radarChart = null; } }, 400);
     };
 
+    /**
+     * 渲染雷达图函数
+     * @param {Object} p - 成员对象，包含 grades 等信息
+     * @param {String} color - 雷达图主题色（对应届别颜色）
+     */
     function renderRadar(p, color) {
-      const radarEl = document.getElementById('radar-chart');
-      const labelsEl = document.getElementById('grade-labels');
-      if (!radarEl || typeof echarts === 'undefined') return;
+      const radarEl = document.getElementById('radar-chart'); // 雷达图容器元素
+      const labelsEl = document.getElementById('grade-labels'); // 等级标签容器元素
+      if (!radarEl || typeof echarts === 'undefined') return; // 如果没有容器或 echarts 未加载，直接返回
       
-      // 渲染等级标签
+      // 雷达图的六个维度指标
       const indicators = ['组织建设', '创作成就', '文化传承', '影响拓展', '责任担当', '创新视野'];
+      // 渲染每个维度的等级标签（带对应颜色）
       labelsEl.innerHTML = indicators.map((ind, i) => {
-        const grade = p.grades[i];
-        const gradeColor = gradeColors[grade] || '#777';
+        const grade = p.grades[i]; // 获取该维度的等级
+        const gradeColor = gradeColors[grade] || '#777'; // 获取等级对应的颜色
         return `<span class="grade-label" style="background: ${gradeColor}20; border: 1px solid ${gradeColor}; color: ${gradeColor}">
           <strong>${ind}</strong>: ${grade}
         </span>`;
       }).join('');
       
+      // 初始化 echarts 雷达图实例
       radarChart = echarts.init(radarEl);
+      // 设置雷达图配置项
       radarChart.setOption({
-        tooltip: { 
-          backgroundColor: '#fff', 
-          textStyle: { color: '#1a1a1a' }, 
-          borderColor: '#e2e2e2',
-          formatter: (params) => {
+        tooltip: { // 鼠标悬停时的提示框配置
+          backgroundColor: '#fff', // 提示框背景色
+          textStyle: { color: '#1a1a1a' }, // 提示框文字颜色
+          borderColor: '#e2e2e2', // 提示框边框颜色
+          formatter: (params) => { // 自定义提示框内容格式化函数
             const values = params.value;
             return `<strong>${params.name}</strong><br/>` + indicators.map((ind, i) => 
               `${ind}: ${p.grades[i]}`
             ).join('<br/>');
           }
         },
-        radar: {
-          indicator: indicators.map(name => ({ name, max: 5 })),
-          shape: 'polygon', radius: '65%', center:['50%', '50%'], splitNumber: 4,
-          axisName: { color: '#555', fontSize: 11, fontWeight: 'normal' },
-          splitArea: { areaStyle: { color: ['transparent'] } },
-          axisLine: { lineStyle: { color: '#eee' } },
-          splitLine: { lineStyle: { color: '#eee' } }
+        radar: { // 雷达图坐标系配置
+          indicator: indicators.map(name => ({ name, max: 5 })), // 维度名称和最大值（5 分制）
+          shape: 'polygon', // 雷达图形状：多边形
+          radius: '65%', // 雷达图半径大小
+          center:['50%', '50%'], // 雷达图中心点位置
+          splitNumber: 4, // 分隔线数量（将雷达图分成 4 层）
+          axisName: { 
+            color: '#555', 
+            fontSize: 11, 
+            fontWeight: 'normal',
+            lineHeight: 18,
+            // 在维度名称下方显示对应的评级
+            formatter: function(value) {
+              const index = indicators.indexOf(value);
+              const grade = p.grades[index];
+              return `${value}\n{grade|${grade}}`;
+            },
+            rich: {
+              grade: {
+                fontSize: 12,
+                fontWeight: 'bold',
+                lineHeight: 18,
+                align: 'center',
+                backgroundColor: '#f5f5f5',
+                padding: [1, 5],
+                borderRadius: 3
+              }
+            }
+          },
+          splitArea: { areaStyle: { color: ['transparent'] } }, // 区域填充色（透明）
+          axisLine: { lineStyle: { color: '#eee' } }, // 轴线颜色
+          splitLine: { lineStyle: { color: '#eee' } } // 分隔线颜色
         },
-        series:[{ 
-          type: 'radar', 
+        series:[{ // 雷达图数据系列配置
+          type: 'radar', // 图表类型：雷达图
           data:[{ 
-            value: p.grades.map(g => gradeToScore[g] || 2.5), 
-            name: p.name, 
-            areaStyle: { color: color + '15' }, 
-            lineStyle: { color: color, width: 1.5 }, 
-            itemStyle: { color: color }, 
-            symbol: 'circle', 
-            symbolSize: 4
+            value: p.grades.map(g => gradeToScore[g] || 2.5), // 将等级转换为分数值
+            name: p.name, // 数据系列名称（成员姓名）
+            areaStyle: { color: color + '15' }, // 区域填充色（主题色 + 透明度 15%）
+            lineStyle: { color: color, width: 1.5 }, // 线条样式（主题色，线宽 1.5）
+            itemStyle: { color: color }, // 数据点样式（主题色）
+            symbol: 'circle', // 数据点形状：圆形
+            symbolSize: 4 // 数据点大小
           }] 
         }]
       });
