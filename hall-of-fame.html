@@ -401,7 +401,7 @@
     };
 
     // 等级到分数的映射
-    const gradeToScore = { 'A': 5, 'B': 4, 'C': 3, 'D': 2, 'E': 1, '∞': 5, 'F': 1, '?': 2.5, '无': 0 };
+    const gradeToScore = { 'A': 5, 'B': 4, 'C': 3, 'D': 2, 'E': 1, '∞': 6, 'F': 1, '?': 2.5, '无': 0 };
     // 等级颜色映射
     const gradeColors = { 'A': '#bd3140', 'B': '#ab5e30', 'C': '#9c8247', 'D': '#42785d', 'E': '#445f8c', '∞': '#664d85', 'F': '#8a4c70', '?': '#777', '无': '#ccc' };
     
@@ -621,11 +621,11 @@
           }
         },
         radar: { // 雷达图坐标系配置
-          indicator: indicators.map(name => ({ name, max: 5 })), // 维度名称和最大值（5 分制）
-          shape: 'polygon', // 雷达图形状：多边形
+          indicator: indicators.map(name => ({ name, max: 6 })), // 维度名称和最大值（6 分制）
+          shape: 'circle', // 雷达图形状：圆形
           radius: '65%', // 雷达图半径大小
           center:['50%', '50%'], // 雷达图中心点位置
-          splitNumber: 4, // 分隔线数量（将雷达图分成 4 层）
+          splitNumber: 6, // 分隔线数量（将雷达图分成 6 层）
           axisName: { 
             color: '#555', 
             fontSize: 11, 
@@ -651,7 +651,7 @@
           },
           splitArea: { areaStyle: { color: ['transparent'] } }, // 区域填充色（透明）
           axisLine: { lineStyle: { color: '#eee' } }, // 轴线颜色
-          splitLine: { lineStyle: { color: '#eee' } } // 分隔线颜色
+          splitLine: { lineStyle: { color: ['#DDD', 'transparent', 'transparent', 'transparent', 'transparent', 'transparent'] } } // 分隔线颜色（从内到外，每层不同颜色）
         },
         series:[{ // 雷达图数据系列配置
           type: 'radar', // 图表类型：雷达图
@@ -662,7 +662,7 @@
             lineStyle: { color: color, width: 1.5 }, // 线条样式（主题色，线宽 1.5）
             itemStyle: { color: color }, // 数据点样式（主题色）
             symbol: 'circle', // 数据点形状：圆形
-            symbolSize: 4 // 数据点大小
+            symbolSize: 2 // 数据点大小
           }] 
         }]
       });
