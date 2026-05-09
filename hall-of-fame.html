@@ -651,11 +651,11 @@
           },
           axisName: { 
             color: '#555', 
-            fontSize: 11, 
+            fontSize: 10, 
             fontWeight: 'normal',
             lineHeight: 18,
             padding: [0, 0], // 标签内边距
-            distance: 5, // 标签离轴线的距离（越小越近）
+            distance: 1, // 标签离轴线的距离（越小越近）
             // 根据维度位置动态调整顺序，让评级更靠近雷达图
             formatter: function(value) {
               const index = indicators.indexOf(value);
@@ -670,7 +670,7 @@
             },
             rich: {
               grade: {
-                fontSize: 14,
+                fontSize: 16,
                 fontWeight: 'bold',
                 color: '#1a1a1a',
                 align: 'center'
