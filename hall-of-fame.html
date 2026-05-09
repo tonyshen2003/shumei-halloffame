@@ -556,7 +556,7 @@
         ${p.archive}</a>` : '';
       const bgColor = termColors[p.term];
       const fontSize = p.name.length <= 2 ? 22 : 18;
-      let radarHtml = p.grades ? `<div class="dp-section-title">角色面板</div><div id="grade-labels"></div><div class="radar-container"><svg class="radar-outer-ring" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="none" stroke="${bgColor}" stroke-width="1"/></svg><div id="radar-chart"></div></div>` : '';
+      let radarHtml = p.grades ? `<div class="dp-section-title">角色面板</div><div id="grade-labels"></div><div class="radar-container"><svg class="radar-outer-ring" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="${bgColor}" stroke-width="1"/></svg><div id="radar-chart"></div></div>` : '';
       
       let coverContent = p.photo 
         ? `<img class="dp-cover" src="${photoUrl}" alt="${p.name}">`
