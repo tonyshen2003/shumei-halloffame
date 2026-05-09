@@ -301,7 +301,7 @@
     .shs-hof-namespace .dp-cover { height: 260px; /* 移动端详情页照片高度调整为 260px */ }
     .shs-hof-namespace .dp-content { padding: 32px 24px; }
     .shs-hof-namespace .dp-name { font-size: 26px; }
-    .shs-hof-namespace .radar-container { height: 280px; /* 移动端雷达图容器高度适配 */ }
+    .shs-hof-namespace .radar-container { height: 360px; /* 移动端雷达图容器高度适配 */ }
   }
 
   @keyframes flatFadeIn {
@@ -554,9 +554,9 @@
       let archiveHtml = p.archive ? `<div class="dp-section-title">相关文献</div><a href="#" class="dp-archive">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
         ${p.archive}</a>` : '';
-      let radarHtml = p.grades ? `<div class="dp-section-title">角色面板</div><div id="grade-labels"></div><div class="radar-container"><svg class="radar-outer-ring" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="none" stroke="#999" stroke-width="1"/></svg><div id="radar-chart"></div></div>` : '';
       const bgColor = termColors[p.term];
       const fontSize = p.name.length <= 2 ? 22 : 18;
+      let radarHtml = p.grades ? `<div class="dp-section-title">角色面板</div><div id="grade-labels"></div><div class="radar-container"><svg class="radar-outer-ring" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="none" stroke="${bgColor}" stroke-width="1"/></svg><div id="radar-chart"></div></div>` : '';
       
       let coverContent = p.photo 
         ? `<img class="dp-cover" src="${photoUrl}" alt="${p.name}">`
@@ -637,7 +637,7 @@
         radar: { // 雷达图坐标系配置
           indicator: indicators.map(name => ({ name, max: 6 })), // 维度名称和最大值（6 分制）
           shape: 'circle', // 雷达图形状：圆形
-          radius: '65%', // 雷达图半径大小
+          radius: '60%', // 雷达图半径大小
           center:['50%', '50%'], // 雷达图中心点位置
           splitNumber: 6, // 分隔线数量（将雷达图分成 6 层）
           axisTick: { // 轴刻度配置
@@ -651,14 +651,30 @@
           },
           axisName: { 
             color: '#555', 
-            fontSize: 11, 
+            fontSize: 10, 
             fontWeight: 'normal',
             lineHeight: 18,
-            // 在维度名称下方显示对应的评级（普通两行）
+            padding: [0, 0], // 标签内边距
+            distance: 1, // 标签离轴线的距离（越小越近）
+            // 根据维度位置动态调整顺序，让评级更靠近雷达图
             formatter: function(value) {
               const index = indicators.indexOf(value);
               const grade = p.grades[index];
-              return `${value}\n${grade}`;
+              // 顶部和上半部分：维度名在上，评级在下
+              // 底部和下半部分：评级在上，维度名在下
+              if (index === 0 || index === 1 || index === 5) {
+                return `${value}\n{grade|${grade}}`;
+              } else {
+                return `{grade|${grade}}\n${value}`;
+              }
+            },
+            rich: {
+              grade: {
+                fontSize: 16,
+                fontWeight: 'bold',
+                color: '#1a1a1a',
+                align: 'center'
+              }
             }
           },
           splitArea: { areaStyle: { color: ['transparent'] } }, // 区域填充色（透明）
