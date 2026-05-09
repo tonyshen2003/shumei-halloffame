@@ -268,9 +268,22 @@
   .shs-hof-namespace .grade-label {
     padding: 6px 12px; border-radius: 16px; font-size: 13px; font-weight: 500;
   }
-  .shs-hof-namespace #radar-chart {
-    width: 100%; height: 320px; background: transparent;
+  .shs-hof-namespace .radar-container {
+    position: relative;
+    width: 100%;
+    height: 320px;
     margin-bottom: 32px;
+  }
+  .shs-hof-namespace .radar-outer-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .shs-hof-namespace #radar-chart {
+    width: 100%; height: 100%; background: transparent;
   }
 
   /* 扁平文字链接 */
@@ -540,7 +553,7 @@
       let archiveHtml = p.archive ? `<div class="dp-section-title">相关文献</div><a href="#" class="dp-archive">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
         ${p.archive}</a>` : '';
-      let radarHtml = p.grades ? `<div class="dp-section-title">角色面板</div><div id="grade-labels"></div><div id="radar-chart"></div>` : '';
+      let radarHtml = p.grades ? `<div class="dp-section-title">角色面板</div><div id="grade-labels"></div><div class="radar-container"><svg class="radar-outer-ring" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="none" stroke="#999" stroke-width="1"/></svg><div id="radar-chart"></div></div>` : '';
       const bgColor = termColors[p.term];
       const fontSize = p.name.length <= 2 ? 22 : 18;
       
@@ -595,7 +608,7 @@
       if (!radarEl || typeof echarts === 'undefined') return; // 如果没有容器或 echarts 未加载，直接返回
       
       // 雷达图的六个维度指标
-      const indicators = ['组织建设', '创作成就', '文化传承', '影响拓展', '责任担当', '创新视野'];
+      const indicators = ['组织', '创作', '文化', '影响', '责任', '创新'];
       // 渲染每个维度的等级标签（带对应颜色）
       labelsEl.innerHTML = indicators.map((ind, i) => {
         const grade = p.grades[i]; // 获取该维度的等级
@@ -626,6 +639,15 @@
           radius: '65%', // 雷达图半径大小
           center:['50%', '50%'], // 雷达图中心点位置
           splitNumber: 6, // 分隔线数量（将雷达图分成 6 层）
+          axisTick: { // 轴刻度配置
+            show: true,
+            splitNumber: 1,
+            length: 2,
+            lineStyle: {
+              color: '#ccc',
+              width: 2
+            }
+          },
           axisName: { 
             color: '#555', 
             fontSize: 11, 
@@ -651,7 +673,7 @@
           },
           splitArea: { areaStyle: { color: ['transparent'] } }, // 区域填充色（透明）
           axisLine: { lineStyle: { color: '#eee' } }, // 轴线颜色
-          splitLine: { lineStyle: { color: ['#DDD', 'transparent', 'transparent', 'transparent', 'transparent', 'transparent'] } } // 分隔线颜色（从内到外，每层不同颜色）
+          splitLine: { lineStyle: { color: ['#CCC', 'transparent', 'transparent', 'transparent', 'transparent', 'transparent'] } } // 分隔线颜色（从内到外，每层不同颜色）
         },
         series:[{ // 雷达图数据系列配置
           type: 'radar', // 图表类型：雷达图
