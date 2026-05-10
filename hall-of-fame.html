@@ -704,7 +704,16 @@
       });
     }
 
+    // 防抖函数：延迟执行，避免频繁触发
+    function debounce(func, delay) {
+      let timeoutId;
+      return function() {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(func, delay);
+      };
+    }
+
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
-    window.addEventListener('resize', () => { if (radarChart) radarChart.resize(); });
+    window.addEventListener('resize', debounce(() => { if (radarChart) radarChart.resize(); }, 200));
   });
 </script>
