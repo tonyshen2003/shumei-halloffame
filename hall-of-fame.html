@@ -223,7 +223,8 @@
   .shs-hof-namespace .dp-content { padding: 40px 48px; padding-bottom: 80px; padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
   
   .shs-hof-namespace .dp-name { 
-    font-size: 32px; font-weight: 500; margin: 0 0 8px; 
+    font-family: "Didot", "Georgia", "PingFang SC", serif; /* 增加衬线体支持 */
+    font-size: 36px; font-weight: 600; margin: 0 0 8px; 
     color: var(--swell-text-main); line-height: 1.2; letter-spacing: 1px;
   }
   .shs-hof-namespace .dp-role { 
@@ -267,7 +268,7 @@
     display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;
   }
   .shs-hof-namespace .grade-label {
-    padding: 6px 12px; border-radius: 16px; font-size: 13px; font-weight: 500;
+    padding: 6px 12px; border-radius: 1px; font-size: 13px; font-weight: 500;
   }
   .shs-hof-namespace .radar-container {
     position: relative;
@@ -308,6 +309,86 @@
   @keyframes flatFadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
+  }
+
+  /* ================= 档案级折叠属性面板 (杂志风适配) ================= */
+  .shs-hof-namespace .grade-accordion-wrap {
+    margin-top: 16px;
+    margin-bottom: 32px;
+    cursor: pointer;
+  }
+
+  .shs-hof-namespace .grade-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 16px;
+  }
+
+  .shs-hof-namespace .g-item {
+    display: flex;
+    align-items: stretch;
+    height: 22px;
+    background: var(--swell-bg-gray);
+    border: 1px solid var(--swell-border-light);
+  }
+
+  .shs-hof-namespace .g-label {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    width: 44px;
+    background: var(--swell-text-main);
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .shs-hof-namespace .grade-grid.is-expanded .g-label {
+    width: 140px;
+  }
+
+  .shs-hof-namespace .g-text {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 8px;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    color: #fff;
+  }
+
+  .shs-hof-namespace .g-text-short {
+    left: 0;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+  }
+
+  .shs-hof-namespace .grade-grid.is-expanded .g-text-short {
+    opacity: 0;
+  }
+
+  .shs-hof-namespace .g-text-full {
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease 0.1s;
+  }
+
+  .shs-hof-namespace .grade-grid.is-expanded .g-text-full {
+    opacity: 1;
+  }
+
+  .shs-hof-namespace .g-value {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    font-family: "Didot", "Georgia", serif;
+    font-size: 18px;
+    font-weight: bold;
   }
 </style>
 
@@ -564,7 +645,16 @@
         ${p.archive}</a>` : '';
       const bgColor = termColors[p.term];
       const fontSize = p.name.length <= 2 ? 22 : 18;
-      let radarHtml = p.grades ? `<div class="dp-section-title">角色面板</div><div id="grade-labels"></div><div class="radar-container"><svg class="radar-outer-ring" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="${bgColor}" stroke-width="1"/></svg><div id="radar-chart"></div></div>` : '';
+      let radarHtml = p.grades ? `
+        <div class="dp-section-title">能力雷达</div>
+        <div class="radar-container">
+          <svg class="radar-outer-ring" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="${bgColor}" stroke-width="1"/></svg>
+          <div id="radar-chart"></div>
+        </div>
+        <div class="grade-accordion-wrap" onclick="toggleGrades()">
+          <div id="grade-labels-grid" class="grade-grid"></div>
+        </div>
+      ` : '';
       
       let coverContent = p.photo 
         ? `<img class="dp-cover" src="${photoUrl}" alt="${p.name}">`
@@ -599,11 +689,17 @@
     window.closeDetail = function() {
       const panel = document.getElementById('detailPanel');
       const overlay = document.getElementById('detailOverlay');
-      panel.style.transform = ''; // 重置滑动造成的样式
+      panel.style.transform = '';
       overlay.classList.remove('active');
       panel.classList.remove('active');
       document.body.style.overflow = '';
       setTimeout(() => { if (radarChart) { radarChart.dispose(); radarChart = null; } }, 400);
+    };
+
+    window.toggleGrades = function() {
+      const grid = document.getElementById('grade-labels-grid');
+      if (!grid) return;
+      grid.classList.toggle('is-expanded');
     };
 
     /**
@@ -612,20 +708,28 @@
      * @param {String} color - 雷达图主题色（对应届别颜色）
      */
     function renderRadar(p, color) {
-      const radarEl = document.getElementById('radar-chart'); // 雷达图容器元素
-      const labelsEl = document.getElementById('grade-labels'); // 等级标签容器元素
-      if (!radarEl || typeof echarts === 'undefined') return; // 如果没有容器或 echarts 未加载，直接返回
+      const radarEl = document.getElementById('radar-chart');
+      const gridEl = document.getElementById('grade-labels-grid');
+      if (!radarEl || typeof echarts === 'undefined') return;
       
-      // 雷达图的六个维度指标
       const indicators = ['组织', '创作', '文化', '影响', '责任', '创新'];
-      // 渲染每个维度的等级标签（带对应颜色）
-      labelsEl.innerHTML = indicators.map((ind, i) => {
-        const grade = p.grades[i]; // 获取该维度的等级
-        const gradeColor = gradeColors[grade] || '#777'; // 获取等级对应的颜色
-        return `<span class="grade-label" style="background: ${gradeColor}20; border: 1px solid ${gradeColor}; color: ${gradeColor}">
-          <strong>${ind}</strong>: ${grade}
-        </span>`;
-      }).join('');
+      const indicatorFull = ['组织统筹', '影像创作', '树莓文化建设', '品牌影响', '公共责任', '多维创新破局'];
+      if (gridEl) {
+        gridEl.innerHTML = indicators.map((ind, i) => {
+          const grade = p.grades[i];
+          const gradeColor = gradeColors[grade] || '#777';
+          
+          return `
+            <div class="g-item">
+              <div class="g-label" style="background: ${gradeColor}">
+                <span class="g-text g-text-short">${ind}</span>
+                <span class="g-text g-text-full">${indicatorFull[i]}</span>
+              </div>
+              <div class="g-value" style="color: ${gradeColor}">${grade}</div>
+            </div>
+          `;
+        }).join('');
+      }
       
       // 初始化 echarts 雷达图实例
       radarChart = echarts.init(radarEl);
