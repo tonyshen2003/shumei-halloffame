@@ -195,11 +195,12 @@
   .shs-hof-namespace .flat-drawer {
     position: fixed; top: 0; right: 0;
     width: 520px; max-width: 100vw; height: 100vh;
-    background: var(--swell-bg); 
-    border-left: 1px solid var(--swell-border); /* 纯细线分割，无阴影 */
+    background: var(--swell-bg);
+    border-left: 1px solid var(--swell-border);
     z-index: 9999999; transform: translateX(100%);
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     overflow-y: auto; display: flex; flex-direction: column;
+    overscroll-behavior: contain;
   }
   .shs-hof-namespace .flat-drawer.active { transform: translateX(0); }
   
@@ -219,7 +220,7 @@
     border-bottom: 1px solid var(--swell-border-light); 
   }
   
-  .shs-hof-namespace .dp-content { padding: 40px 48px; }
+  .shs-hof-namespace .dp-content { padding: 40px 48px; padding-bottom: 80px; padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
   
   .shs-hof-namespace .dp-name { 
     font-size: 32px; font-weight: 500; margin: 0 0 8px; 
@@ -298,10 +299,10 @@
     .shs-hof-namespace .flat-stats-row { gap: 24px; padding: 16px 0; }
     .shs-hof-namespace .stat-num { font-size: 28px; }
     .shs-hof-namespace .flat-gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 24px 16px; }
-    .shs-hof-namespace .dp-cover { height: 260px; /* 移动端详情页照片高度调整为 260px */ }
-    .shs-hof-namespace .dp-content { padding: 32px 24px; }
+    .shs-hof-namespace .dp-cover { height: 260px; }
+    .shs-hof-namespace .dp-content { padding: 32px 24px; padding-bottom: 100px; padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
     .shs-hof-namespace .dp-name { font-size: 26px; }
-    .shs-hof-namespace .radar-container { height: 360px; /* 移动端雷达图容器高度适配 */ }
+    .shs-hof-namespace .radar-container { height: 360px; }
   }
 
   @keyframes flatFadeIn {
@@ -345,16 +346,14 @@
 
       drawer.addEventListener('touchmove', (e) => {
         if (!isSwipeActive || isVerticalScroll) return;
-        
+
         touchMoveX = e.touches[0].clientX;
         touchMoveY = e.touches[0].clientY;
-        
+
         const diffX = touchMoveX - touchStartX;
         const diffY = touchMoveY - touchStartY;
-        
-        // 初始判断：移动一定距离后确定滑动方向
+
         if (!isHorizontalSwipe && !isVerticalScroll && (Math.abs(diffX) > 10 || Math.abs(diffY) > 10)) {
-          // 判断滑动方向：如果 Y 轴移动大于等于 X 轴，判定为垂直滚动
           if (Math.abs(diffY) >= Math.abs(diffX)) {
             isVerticalScroll = true;
             return;
@@ -362,14 +361,23 @@
             isHorizontalSwipe = true;
           }
         }
-        
-        // 如果已确定是垂直滚动，直接返回
-        if (isVerticalScroll) return;
-        
-        // 只有确定是水平滑动时才阻止页面滚动并移动抽屉
-        if (isHorizontalSwipe && diffX > 0) {
+
+        if (isVerticalScroll) {
+          const scrollTop = drawer.scrollTop;
+          const maxScroll = drawer.scrollHeight - drawer.clientHeight;
+          if ((scrollTop === 0 && diffY > 0) || (scrollTop >= maxScroll && diffY < 0)) {
+            e.preventDefault();
+          }
+          return;
+        }
+
+        if (isHorizontalSwipe) {
           e.preventDefault();
-          drawer.style.transform = `translateX(${Math.min(diffX, 520)}px)`;
+          if (diffX > 0) {
+            drawer.style.transform = `translateX(${Math.min(diffX, 520)}px)`;
+          } else {
+            drawer.style.transform = `translateX(${diffX}px)`;
+          }
         }
       }, { passive: false });
 
