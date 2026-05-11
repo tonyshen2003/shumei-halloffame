@@ -177,12 +177,62 @@
     letter-spacing: 1px; z-index: 2;
   }
 
-  .shs-hof-namespace .card-name { 
-    font-size: 17px; font-weight: 600; color: var(--swell-text-main); 
-    line-height: 1.3; margin-bottom: 4px;
+  /* ================= 档案级：黑金荣誉版卡片文字区 ================= */
+  .shs-hof-namespace .card-info {
+    padding: 2px 0 0 0;
+    transition: transform 0.3s ease;
   }
-  .shs-hof-namespace .card-role { 
-    font-size: 13px; color: var(--swell-text-light); font-weight: 400;
+
+  .shs-hof-namespace .card-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--swell-text-main);
+    line-height: 1.3;
+    margin-bottom: 6px;
+    letter-spacing: 0.8px;
+    display: inline-block;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+  }
+
+  .shs-hof-namespace .flat-card:hover .card-name {
+    color: var(--swell-accent);
+    transform: translateX(4px);
+  }
+
+  .shs-hof-namespace .card-name::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 0;
+    background-color: var(--swell-accent);
+    transition: height 0.3s ease;
+  }
+
+  .shs-hof-namespace .flat-card:hover .card-name::before {
+    height: 70%;
+  }
+
+  .shs-hof-namespace .card-role {
+    font-size: 12px;
+    color: var(--swell-text-light);
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 1.2px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
+    overflow: hidden;
+    transition: color 0.3s ease;
+  }
+
+  .shs-hof-namespace .flat-card:hover .card-role {
+    color: var(--swell-text-sub);
   }
 
   /* ================= 详情侧边栏 (扁平无阴影) ================= */
@@ -299,11 +349,28 @@
   @media (max-width: 768px) {
     .shs-hof-namespace .flat-stats-row { gap: 24px; padding: 16px 0; }
     .shs-hof-namespace .stat-num { font-size: 28px; }
-    .shs-hof-namespace .flat-gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 24px 16px; }
+    .shs-hof-namespace .flat-gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 28px 16px; }
     .shs-hof-namespace .dp-cover { height: 260px; }
     .shs-hof-namespace .dp-content { padding: 32px 24px; padding-bottom: 100px; padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
     .shs-hof-namespace .dp-name { font-size: 26px; }
     .shs-hof-namespace .radar-container { height: 360px; }
+
+    /* 黑金荣誉版手机端适配 */
+    .shs-hof-namespace .card-name {
+      font-size: 16px;
+      letter-spacing: 0.5px;
+    }
+    .shs-hof-namespace .flat-card:hover .card-name {
+      transform: none;
+    }
+    .shs-hof-namespace .card-name::before {
+      display: none;
+    }
+    .shs-hof-namespace .card-role {
+      font-size: 11px;
+      line-height: 1.4;
+      letter-spacing: 0.8px;
+    }
   }
 
   @keyframes flatFadeIn {
